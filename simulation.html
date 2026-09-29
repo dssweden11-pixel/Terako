@@ -1,0 +1,2388 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Terrako</title>
+<style>
+.bloch-about {
+    width: min(1400px, 100%);
+
+    margin-top: 80px;
+    margin-bottom: 80px;
+    margin-left: max(0px, calc((100% - 1500px) / 2));
+    margin-right: auto;
+
+    padding: 0;
+    color: white;
+    text-align: left;
+}
+   * {
+     box-sizing: border-box;
+ }
+#state {
+  font-size: 28px;
+  font-family: "Times New Roman", serif;
+  line-height: 1.5;
+  font-weight: 600;
+}
+
+#state .stateValues {
+  display: block;
+  margin-top: 8px;
+  font-size: 18px;
+  font-family: Arial, sans-serif;
+  font-weight: 400;
+  color: #b8c7d9;
+}
+body {
+   margin: 0;
+   min-height: 100vh;
+   padding: 40px 20px;
+   font-family: Arial, sans-serif;
+   backgound: linear-gradient(135deg, #07111f, #102b46);
+   color: white;
+}
+
+.dashboard {
+   width: min(1600px, 100%);
+   margin: 0 auto;
+
+   display: grid;
+   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+   
+   grid-template-areas:
+         "challenge challenge"
+         "controls sphere"
+         "bottomLeft bottomRight";
+   gap: 24px;
+   align-items: start;
+   }
+
+#challengePanel {
+       grid-area: challenge;
+       padding: 24px;
+       boarder-radius: 18px;
+       background: rgba(20, 55, 95, 0.55);
+       border: 1px solid rgba(120, 190, 255, 0.22);
+}
+
+#controlsPanel {
+   grid-area: controls;
+}
+
+#spherePanel {
+}
+
+.bottomLeft {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    align-self: start;
+}
+
+.bottomRight {
+   display: flex;
+   flex-direction: column;
+gap: 24px;
+align-self: start;
+margin-top: -260px;
+
+}
+
+.dashboard > * {
+    min-width: 0;
+}
+
+
+.header {
+   width: min(1600px, 100%);
+   margin: 0 auto 28px auto;
+}
+
+#challengePanel {
+     grid-area: challenge;
+     margin-bottom: 8px;
+}
+.header h1 {
+    margin: 0;
+    font-size: 36px;
+}
+
+.header p {
+    margin-top: 8px;
+    color: #b8c7d9;
+}
+
+.panel {
+   padding: 24px;
+   margin-bottom: 0;
+   border: 1px solid rgba(255, 255, 255, 0.15);
+   border-radius: 18px;
+   backgound: rgba(255, 255, 255, 0.08);
+   box-shadow: 0.15px 40px rgba(0, 0, 0, 0.25);
+   backdrop-filter: blur(12px);
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+button {
+  padding: 11px 18px;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s, opacity 0.2s;
+}
+
+button:hover {
+   transform: translateY(-2px);
+   opacity: 0.9;
+}
+
+input {
+  width: 90px;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 9px;
+  background: rgba(0, 0, 0, 0.25);
+  color: white;
+  font-size: 15px;
+}
+
+label {
+  color: #dce7f5;
+  font-weight: bold;
+}
+
+.danger-button {
+   background: #c84b5a;
+   color: white;
+}
+  
+.primary-button {
+    background: #7657db;
+    color: white;
+}
+html {
+    min-height: 100%;
+    background: linear-gradient(135deg, #07111f, #102b46) !important;
+    color: white !important;
+}
+
+main.dashboard {
+      background: transparent;
+}
+
+.panel {
+    color: white;
+}
+
+canvas {
+    background: transparent;
+}
+#BlochSphere3D {
+    width: 100%;
+    height: 0;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 18px;
+    overflow: hidden;
+    background: rgba(0, 0, 0.18);
+}
+
+#BlochSphere3D canvas {
+     display: block;
+     width: 100%;
+     height: 100%;
+}
+
+:root {
+    --bg-dark: #06111f;
+    --bg-mid: #0b2038;
+    --panel: rgba(15, 35, 58, 0.78);
+    --panel-border: rgba(120, 190, 255, 0.20);
+    --text-main: #f4f8ff;
+    --text-muted: #a9bdd2;
+    --accent: #4db8ff;
+    --accent-soft: rgba(77, 184, 255, 0.15);
+}
+
+html {
+    min-height: 100%;
+    background: var(--bg-dark);
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    padding: 32px;
+    font-family: Inter, Arial, sans-serif;
+    color: var(--text-main);
+    background:
+        radial-gradient(circle at top right, rgba(34, 112, 180, 0.22), transparent 35%),
+        linear-gradient(135deg, var(--bg-dark), var(--bg-mid));
+}
+
+/* Main page width */
+.dashboard,
+.header {
+    width: min(1450px, 100%);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Header */
+.header {
+    margin-bottom: 28px;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 42px;
+    letter-spacing: -1px;
+}
+
+.header p {
+    margin-top: 8px;
+    color: var(--text-muted);
+    font-size: 17px;
+}
+
+/* All cards */
+.panel,
+#challengePanel {
+    background: var(--panel);
+    border: 1px solid var(--panel-border);
+    border-radius: 20px;
+    padding: 26px;
+    box-shadow:
+        0 16px 45px rgba(0, 0, 0, 0.28),
+        inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(14px);
+}
+
+/* Titles */
+.panel h2,
+.panel h3,
+#challengePanel h2 {
+    margin-top: 0;
+    letter-spacing: -0.3px;
+}
+
+.panel h2 {
+    font-size: 24px;
+}
+
+.panel h3 {
+    font-size: 20px;
+}
+
+/* Labels */
+label {
+    display: inline-block;
+    margin-bottom: 7px;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+/* Number/text inputs */
+input[type="number"],
+input[type="text"],
+select {
+    background: rgba(5, 15, 28, 0.65);
+    border: 1px solid rgba(130, 190, 240, 0.24);
+    color: white;
+    padding: 11px 13px;
+    border-radius: 10px;
+    outline: none;
+    font-size: 15px;
+    transition: 0.2s ease;
+}
+
+input:focus,
+select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+/* Buttons */
+button {
+    border: 1px solid rgba(120, 190, 255, 0.25);
+    border-radius: 11px;
+    padding: 11px 16px;
+    margin: 4px 2px;
+    background: linear-gradient(
+        180deg,
+        rgba(80, 180, 255, 0.95),
+        rgba(37, 126, 205, 0.95)
+    );
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease,
+        filter 0.15s ease;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(36, 137, 220, 0.32);
+    filter: brightness(1.08);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+/* Sliders */
+input[type="range"] {
+    accent-color: var(--accent);
+    cursor: pointer;
+}
+
+/* Quantum state equation */
+#state {
+    margin: 22px 0;
+    padding: 16px 18px;
+    border-radius: 14px;
+    background: rgba(0, 0, 0, 0.20);
+    border: 1px solid rgba(100, 180, 255, 0.14);
+    font-family: "Times New Roman", serif;
+    font-size: 26px;
+    line-height: 1.55;
+    overflow-x: auto;
+}
+
+#state .stateValues {
+    display: block;
+    margin-top: 8px;
+    font-family: Arial, sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--text-muted);
+}
+
+/* Results */
+#p0,
+#p1,
+#x,
+#y,
+#z {
+    color: #dcecff;
+    font-family: monospace;
+    font-size: 15px;
+}
+
+/* Progress bars */
+progress {
+    width: 100%;
+    height: 12px;
+    border-radius: 99px;
+    overflow: hidden;
+}
+
+/* 3D sphere area */
+#blochSphere3D {
+    border-radius: 16px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.22);
+    border: 1px solid rgba(120, 190, 255, 0.16);
+}
+
+/* Circuit display */
+#circuit {
+    padding: 18px;
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.22);
+    border: 1px solid rgba(120, 190, 255, 0.14);
+}
+
+/* Gate history */
+#history {
+    min-height: 32px;
+    font-family: monospace;
+    font-size: 18px;
+    letter-spacing: 4px;
+}
+
+/* Gate explanation text */
+#explanationPanel p {
+    color: var(--text-muted);
+    line-height: 1.6;
+    font-size: 15px;
+}
+
+/* Canvas */
+#blochCanvas {
+    display: block;
+    max-width: 100%;
+    margin: 15px auto 0;
+}
+
+/* Mobile / narrow screens */
+@media (max-width: 850px) {
+    body {
+        padding: 18px;
+    }
+
+    .dashboard {
+        display: block;
+    }
+
+    .panel,
+    #challengePanel,
+    .bottomLeft,
+    .bottomRight {
+        margin-bottom: 18px;
+    }
+
+    .header h1 {
+        font-size: 32px;
+    }
+
+    #state {
+        font-size: 21px;
+    }
+}
+
+.dashboard {
+    width: min(1500px, 100%);
+    margin: 0 auto;
+    padding: 0;
+
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+
+    background: rgba(7, 18, 31, 0.88);
+    border: 1px solid rgba(120, 190, 255, 0.16);
+    border-radius: 22px;
+    overflow: hidden;
+
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
+}
+
+/* Stop every section from looking like its own floating cube */
+.panel,
+#challengePanel {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    backdrop-filter: none;
+
+    padding: 28px;
+    margin: 0;
+}
+
+/* Use subtle separators instead of separate cards */
+#challengePanel {
+    grid-column: 1 / -1;
+    border-bottom: 1px solid rgba(120, 190, 255, 0.14);
+}
+
+#controlsPanel {
+    border-right: 1px solid rgba(120, 190, 255, 0.14);
+    border-bottom: 1px solid rgba(120, 190, 255, 0.14);
+}
+
+#spherePanel {
+    border-bottom: 1px solid rgba(120, 190, 255, 0.14);
+}
+
+.bottomLeft {
+    border-right: 1px solid rgba(120, 190, 255, 0.14);
+}
+
+#visualPanel,
+#circuitPanel,
+#historyPanel,
+#explanationPanel {
+    border-bottom: 1px solid rgba(120, 190, 255, 0.10);
+}
+
+/* Remove the extra rounded-box feeling from nested sections */
+.bottomLeft,
+.bottomRight {
+    gap: 0;
+}
+
+/* Cleaner section headings */
+.panel h2,
+.panel h3,
+#challengePanel h2 {
+    margin-top: 0;
+    margin-bottom: 18px;
+}
+
+/* Keep the quantum equation as one intentional highlighted element */
+#state {
+    background: rgba(0, 0, 0, 0.18);
+    border: 1px solid rgba(120, 190, 255, 0.12);
+    border-radius: 10px;
+}
+
+/* Keep the sphere itself contained without creating another huge card */
+#blochSphere3D {
+    border-radius: 10px;
+    border: 1px solid rgba(120, 190, 255, 0.12);
+}
+
+/* Circuit/history areas should feel embedded */
+#circuit {
+    background: rgba(0, 0, 0, 0.16);
+    border: none;
+    border-radius: 8px;
+}
+
+/* Buttons stay polished */
+button {
+    border-radius: 8px;
+}
+
+/* Header remains separate from the application */
+.header {
+    width: min(1500px, 100%);
+    margin: 0 auto 24px auto;
+}
+
+/* Narrow screens */
+@media (max-width: 850px) {
+    .dashboard {
+        display: block;
+    }
+
+    #controlsPanel,
+    .bottomLeft {
+        border-right: none;
+    }
+
+    .panel,
+    #challengePanel {
+        border-bottom: 1px solid rgba(120, 190, 255, 0.12);
+    }
+}
+
+
+.bloch-about h1 {
+    font-size: 34px;
+    margin-bottom: 15px;
+}
+
+.about-intro {
+    color: #b8c2d8;
+    font-size: 17px;
+    line-height: 1.8;
+    margin-bottom: 35px;
+}
+
+.bloch-about details {
+    background: #0d1b33;
+    border: 1px solid #243653;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+
+.bloch-about summary {
+    cursor: pointer;
+    padding: 20px;
+    font-size: 19px;
+    font-weight: bold;
+    background: #11213d;
+    transition: background 0.2s ease;
+}
+
+.bloch-about summary:hover {
+    background: #182c4e;
+}
+
+.about-content {
+    padding: 10px 25px 25px 25px;
+    line-height: 1.8;
+    color: #d5dceb;
+}
+
+.about-content h3 {
+    margin-top: 30px;
+    color: white;
+}
+
+.equation {
+    background: #071426;
+    border-left: 4px solid #5d8cff;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 6px;
+    font-family: "Times New Roman", serif;
+    font-size: 19px;
+    overflow-x: auto;
+}
+
+.info-box {
+    background: #102542;
+    padding: 18px;
+    margin: 20px 0;
+    border-radius: 8px;
+    line-height: 2;
+}
+
+.gate-matrix {
+    background: #071426;
+    border-left: 4px solid #5d8cff;
+    padding: 15px 20px;
+    margin: 20px 0;
+    border-radius: 6px;
+    font-family: monospace;
+    font-size: 17px;
+}
+</style>
+</head>
+<body>
+
+<a href="home.html" class="lobby-link">← Back to Lobby</a>
+
+
+
+<header class="header">
+  <h1>Terako Bloch Calculator</h1>
+  <p>Explore quantum states, gates, and measurments.</p>
+  </header>
+
+  <main class="dashboard">
+
+<div id="challengePanel">
+    <h2>Quantum State Challenge</h2>
+
+    <p id="challengeTarget">
+        Press "New Challenge" to begin.
+    </p>
+
+    <p>
+        Gates used:
+        <span id="gateCountUsed">0</span>
+        /
+        <span id="gateLimit">∞</span>
+    </p>
+
+    <p>
+        Score:
+        <span id="challengeScore">0</span>
+    </p>
+
+
+    <button onclick="newChallenge()">
+        New Challenge
+    </button>
+
+    <button onclick="checkChallenge()">
+        Check State
+    </button>
+
+    <select id="challengeDifficulty">
+        <option value="easy">Easy</option>
+        <option value="medium">Medium</option>
+        <option value="hard">Hard</option>
+    </select>
+
+    <p id="challengeFeedback"></p>
+</div>
+
+<section class="panel" id="spherePanel">
+    <h2>3D Bloch Sphere</h2>
+    <div id="blochSphere3D" style="height: 500px;"></div>
+ </section>
+
+  <section class="panel" id="controlsPanel">
+    <h2>state Controls</h2>
+
+
+  
+<label>Theta degrees:</label>
+<input id="thetaInput" type="number" value="90">
+
+<br><br>
+
+<label>Phi degrees:</label>
+<input id="phiInput" type="number" value="0">
+<input id="thetaSlider" type="range" min="0" max="180" value="90">
+<input id="phiSlider" type="range" min="0" max="360" value="0"> 
+<select id="viewMode">
+<option value="xz">X-Z View</option>
+<option value="xy">X-Y View</option>
+<option value="yz">Y-Z View</option>
+</select>
+<p id="state">State:</p>
+<button onclick="calculate()">calculate</button>
+
+<h3>Quantum Gates</h3>
+
+<button onclick="applyXGate()">X Gate</button>
+<button onclick="applyZGate()">Z Gate</button>
+<button onclick="applyHGate()">H Gate</button>
+<button onclick="measurmentQubit()">Measurment</button>
+<button onclick="applyYGate()">Y Gate</button>
+<button onclick="resetQubit()">Reset</button>
+<button onclick="applySGate()">S Gate</button>
+<button onclick="applyTGate()">T Gate</button>
+<button onclick="randomCircuit()">Random Circuit</button>
+<lable for="gateCount">Number of gates:</lable>
+
+<input
+    id="gateCount"
+    type="number"
+    value="5"
+    min="1"
+    max="50"
+>
+
+<button onclick="runRandomCircuit()">
+    Run Random Circuit
+</button>
+<button onclick="stopRandomCircuit()">
+      stopCircuit
+</button>
+    
+   
+
+<h2>Results</h2>
+<p id="p0">P(0):</p>
+<p id="p1">P(1):</p>
+<div class="phase-display">
+    Phase angle φ:
+    <span id="phaseAngle">0.00°</span>
+</div>
+<p id="x">X:</p>
+<p id="y">Y:</p>
+<p id="z">Z:</p>
+<p>|0> Probiblity</p>
+<progress id="p0Bar" value="0" max="100"></progress>
+<p>|0> Probiblity</p>
+<progress id="p1Bar" value="0" max="100"></progress>
+</section>
+<div class="bottomLeft">
+<section class="panel" id="visualPanel">
+<h2>Bloch Visual</h2>
+<canvas id="blochCanvas" width="300" height="300"></canvas>
+</section>
+
+<section class="panel" id="circuitPanel">
+<h2>Quantum Circuit</h2>
+<div id="circuit" style="
+     font-family: monospace;
+     font-size: 24px;
+     margin-top: 10px;
+">
+|0>
+</div>
+</section>
+</div>
+<div class="bottomRight">
+<section class="panel" id="historyPanel">
+<h2>Gate History</h2>
+<p id="history"></p>
+</section>
+
+<section class="panel" id="explanationPanel">
+      <div id="getExplanation">
+           <h3>Gate Explanation</h3>
+       <p id="gateExplanationtext">Apply a gate to see what it does.</p>
+          
+</div>
+</section>
+</div>
+</main>
+<script type="importmap">
+{
+   "imports": {
+     "three": "https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js",
+     "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/"
+  }
+
+}
+</script>
+<script type="module">
+import * as THREE from "three";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+
+const bloch3DContainer = document.getElementById("blochSphere3D");
+
+const scene3D = new THREE.Scene();
+
+const camera3D = new THREE.PerspectiveCamera(
+45,
+bloch3DContainer.clientWidth / bloch3DContainer.clientHeight,
+0.1,
+100
+);
+
+camera3D.position.set(3, 2, 4);
+camera3D.lookAt(0, 0, 0);
+const renderer3D = new THREE.WebGLRenderer({
+    antialias: true,
+    aplpha: true
+});
+
+renderer3D.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+renderer3D.setSize(
+    bloch3DContainer.clientWidth,
+    bloch3DContainer.clientHeight
+);
+bloch3DContainer.appendChild(renderer3D.domElement);
+
+const controls3D = new OrbitControls(
+   camera3D,
+   renderer3D.domElement
+);
+
+controls3D.enableDamping = true;
+controls3D.enablePan = false;
+controls3D.minDistance = 2.5;
+controls3D.maxDistance = 8; 
+
+const sphereGeometry3D = new THREE.SphereGeometry(
+   1,
+   24,
+   16
+);
+
+const sphereMaterial3D = new THREE.MeshBasicMaterial({
+   color: 0x55b8ff,
+   wireframe: true,
+   transparent: true,
+   opacity: 0.22
+});
+
+const sphere3D = new THREE.Mesh(
+   sphereGeometry3D,
+   sphereMaterial3D
+);
+
+scene3D.add(sphere3D);
+
+function createAxis3D(start, end, color) {
+   const points = [
+       new THREE.Vector3(...start),
+       new THREE.Vector3(...end)
+];
+
+const geometry = new THREE.BufferGeometry().setFromPoints(points);
+
+const material = new THREE.LineBasicMaterial({
+   color: color,
+   transparent: true,
+   opacity: 0.8
+});
+
+const axis = new THREE.Line(geometry, material);
+
+scene3D.add(axis);
+}
+
+createAxis3D([-1.4, 0, 0], [1.4, 0, 0], 0xff6666);
+createAxis3D([0, -1.4, 0], [0, 1.4, 0], 0x66ff99);
+createAxis3D([0, 0, -1.4], [0, 0, 1.4], 0x66aaff);
+
+const vectorMaterial3D = new THREE.LineBasicMaterial({
+   color: 0xffffff,
+   linewidth: 3
+});
+
+const vectorGeometry3D = new THREE.BufferGeometry().setFromPoints([
+     new THREE.Vector3(0, 0, 0),
+     new THREE.Vector3(0, 0, 1)
+]);
+
+const stateVector3D = new THREE.Line(
+   vectorGeometry3D,
+   vectorMaterial3D
+);
+
+scene3D.add(stateVector3D);
+
+const phaseArcMaterial3D = new THREE.LineBasicMaterial({
+    color: 0xffff00
+});
+
+const phaseArcGeometry3D = new THREE.BufferGeometry();
+
+const phaseArc3D = new THREE.Line(
+    phaseArcGeometry3D,
+    phaseArcMaterial3D
+);
+
+scene3D.add(phaseArc3D);
+
+let displayedPhi = 0;
+
+const phiCanvas = document.createElement("canvas");
+phiCanvas.width = 128;
+phiCanvas.height = 128;
+
+const phiContext = phiCanvas.getContext("2d");
+
+phiContext.font = "bold 64px Arial";
+phiContext.textAlign = "center";
+phiContext.textBaseline = "middle";
+phiContext.fillStyle = "yellow";
+phiContext.fillText("φ", 64, 64);
+
+const phiTexture = new THREE.CanvasTexture(phiCanvas);
+
+const phiMaterial = new THREE.SpriteMaterial({
+    map: phiTexture,
+    transparent: true
+});
+
+const phiLabel3D = new THREE.Sprite(phiMaterial);
+
+phiLabel3D.scale.set(0.22, 0.22, 1);
+
+scene3D.add(phiLabel3D);
+
+const endpointGeometry3D = new THREE.SphereGeometry(
+0.055,
+24,
+26
+);
+
+const endpointMaterial3D = new THREE.MeshBasicMaterial({
+    color: 0xffffff
+});
+
+const endpoint3D = new THREE.Mesh(
+  endpointGeometry3D,
+  endpointMaterial3D
+);
+
+endpoint3D.position.set(0, 1, 0);
+
+scene3D.add(endpoint3D);
+
+const shellGeometry = new THREE.SphereGeometry(1, 32, 20);
+
+const shellMaterial = new THREE.MeshBasicMaterial({
+    color: 0x168cff,
+    transparent: true,
+    opacity: 0.06,
+    side: THREE.DoubleSide
+});
+
+const shell3D = new THREE.Mesh(shellGeometry, shellMaterial);
+scene3D.add(shell3D);
+
+
+// ---------- Great-circle rings ----------
+
+function makeRing(rotationX, rotationY, rotationZ) {
+    const points = [];
+
+    for (let i = 0; i <= 128; i++) {
+        const angle = (i / 128) * Math.PI * 2;
+
+        points.push(
+            new THREE.Vector3(
+                Math.cos(angle),
+                Math.sin(angle),
+                0
+            )
+        );
+    }
+
+    const geometry = new THREE.BufferGeometry().setFromPoints(points);
+
+    const material = new THREE.LineBasicMaterial({
+        color: 0x5faeff,
+        transparent: true,
+        opacity: 0.35
+    });
+
+    const ring = new THREE.LineLoop(geometry, material);
+
+    ring.rotation.set(
+        rotationX,
+        rotationY,
+        rotationZ
+    );
+
+    scene3D.add(ring);
+}
+
+// XY plane
+makeRing(0, 0, 0);
+
+// XZ plane
+makeRing(Math.PI / 2, 0, 0);
+
+// YZ plane
+makeRing(0, Math.PI / 2, 0);
+
+
+// ---------- Coordinate axes ----------
+
+const axisLength = 1.2;
+
+const xAxis = new THREE.ArrowHelper(
+    new THREE.Vector3(1, 0, 0),
+    new THREE.Vector3(0, 0, 0),
+    axisLength,
+    0xff5f5f
+);
+
+const yAxis = new THREE.ArrowHelper(
+    new THREE.Vector3(0, 1, 0),
+    new THREE.Vector3(0, 0, 0),
+    axisLength,
+    0x5fff88
+);
+
+const zAxis = new THREE.ArrowHelper(
+    new THREE.Vector3(0, 0, 1),
+    new THREE.Vector3(0, 0, 0),
+    axisLength,
+    0x5f9dff
+);
+
+scene3D.add(xAxis);
+scene3D.add(yAxis);
+scene3D.add(zAxis);
+
+
+// ---------- Axis labels ----------
+
+function createLabel(text, position) {
+
+    const canvas = document.createElement("canvas");
+    canvas.width = 256;
+    canvas.height = 128;
+
+    const ctx = canvas.getContext("2d");
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    ctx.font = "bold 42px Arial";
+    ctx.fillStyle = "white";
+    ctx.textAlign = "center";
+    ctx.fillText(text, 128, 70);
+
+    const texture = new THREE.CanvasTexture(canvas);
+
+    const material = new THREE.SpriteMaterial({
+        map: texture,
+        transparent: true
+    });
+
+    const sprite = new THREE.Sprite(material);
+
+    sprite.position.copy(position);
+    sprite.scale.set(0.65, 0.32, 1);
+
+    scene3D.add(sprite);
+}
+
+
+// Quantum-state labels
+
+createLabel("|0⟩", new THREE.Vector3(0, 1.8, 0));
+createLabel("|1⟩", new THREE.Vector3(0, -1.8, 0));
+
+createLabel("+X", new THREE.Vector3(1.8, 0, 0));
+createLabel("-X", new THREE.Vector3(-1.8, 0, 0));
+
+createLabel("+Y", new THREE.Vector3(0, 0, 1.8));
+createLabel("-Y", new THREE.Vector3(0, 0, -1.8));
+
+
+// ---------- State-point halo ----------
+
+const haloGeometry = new THREE.SphereGeometry(0.075, 24, 24);
+
+const haloMaterial = new THREE.MeshBasicMaterial({
+    color: 0xffffff,
+    transparent: true,
+    opacity: 0.28
+});
+
+const stateHalo = new THREE.Mesh(
+    haloGeometry,
+    haloMaterial
+);
+
+stateHalo.scale.set(1.35, 1.25, 1.35);
+
+scene3D.add(stateHalo);
+
+function updateBlochSphere3D(x, y, z) {
+   const thetaDegrees =
+  Number(document.getElementById("thetaInput").value);
+
+const phiDegrees =
+      Number(document.getElementById("phiInput").value);
+
+const theta = THREE.MathUtils.degToRad(thetaDegrees);
+const phi = THREE.MathUtils.degToRad(phiDegrees);
+
+if (x === undefined) x = Math.sin(theta) * Math.cos(phi);
+if (y === undefined) y = Math.sin(theta) * Math.sin(phi);
+if (z === undefined) z = math.cos(theta);
+
+const positions =
+        stateVector3D.geometry.attributes.position.array;
+
+positions[0] = 0;
+positions[1] = 0;
+positions[2] = 0;
+
+positions[3] = x;
+positions[4] = z;
+positions[5] = -y;
+
+stateVector3D.geometry.attributes.position.needsUpdate = true;
+
+endpoint3D.position.set(x, z, -y);
+
+stateHalo.position.set(x, z, -y);
+
+const targetPhi = phi;
+const startPhi = displayedPhi;
+const animationStart = performance.now();
+const animationDuration = 450;
+
+function animatePhi(now) {
+    const t = Math.min(
+        (now - animationStart) / animationDuration,
+        1
+    );
+
+    // Smoothstep: slow start → fast middle → slow finish
+    const smoothT = t * t * (3 - 2 * t);
+
+    displayedPhi =
+        startPhi + (targetPhi - startPhi) * smoothT;
+
+    const phaseArcPoints = [];
+    const phaseArcRadius = 0.35;
+    const phaseArcSegments = 100;
+
+    for (let i = 0; i <= phaseArcSegments; i++) {
+        const angle =
+            displayedPhi * (i / phaseArcSegments);
+
+        phaseArcPoints.push(
+            new THREE.Vector3(
+                phaseArcRadius * Math.cos(angle),
+                0,
+                -phaseArcRadius * Math.sin(angle)
+            )
+        );
+    }
+
+    phaseArc3D.geometry.setFromPoints(phaseArcPoints);
+
+    const middlePhi = displayedPhi / 2;
+
+    phiLabel3D.position.set(
+        phaseArcRadius * 1.25 * Math.cos(middlePhi),
+        0,
+        -phaseArcRadius * 1.25 * Math.sin(middlePhi)
+    );
+
+    if (t < 1) {
+        requestAnimationFrame(animatePhi);
+    }
+}
+
+requestAnimationFrame(animatePhi);
+}
+
+function changePhase(deltaDegrees) {
+    const phiInput = document.getElementById("phiInput");
+
+    let phi = Number(phiInput.value) || 0;
+
+    phi += deltaDegrees;
+
+    phi = ((phi % 360) + 360) % 360;
+
+    phiInput.value = phi;
+
+    calculate();
+}
+
+const canvas = document.getElementById("blochCanvas");
+const ctx = canvas.getContext("2d");
+
+let history = "";
+
+ctx.beginPath();
+ctx.arc(150,150,100,0,2*Math.PI);
+ctx.stroke();
+
+function animateProbabilities(targetP0, targetP1, duration = 900) {
+       const p0Bar = document.getElementById("p0Bar");
+       const p1Bar = document.getElementById("p1Bar");
+
+       const p0Text = document.getElementById("p0");
+       const p1Text = document.getElementById("p1");
+
+    const startP0 = Number(p0Bar.value);
+    const startP1 = Number(p1Bar.value);
+
+    const startTime = performance.now();
+
+    function step(now) {
+        const t = Math.min((now - startTime) / duration, 1);
+
+        const smoothT =
+            t * t * t * (t * (t * 6 - 15) + 10);
+
+        const currentP0 =
+            startP0 + (targetP0 - startP0) * smoothT;
+
+        const currentP1 =
+            startP1 + (targetP1 - startP1) * smoothT;
+
+      
+        p0Text.innerText = `P(0): ${currentP0.toFixed(2)}%`;
+        p1Text.innerText = `P(1): ${currentP1.toFixed(2)}%`;
+
+        p0Bar.value = currentP0;
+        p1Bar.value = currentP1;
+
+        if (t < 1) {
+            requestAnimationFrame(step);
+        }
+    }
+
+    requestAnimationFrame(step);
+}
+
+async function calculate() {
+    const theta = Number(document.getElementById("thetaInput").value) || 0;
+    const phi = Number(document.getElementById("phiInput").value) || 0;
+        
+
+    const response = await fetch(
+      "http://127.0.0.1:8000/bloch/probiblity?theta=" + theta + "&phi=" + phi
+    );
+
+    const data = await response.json();
+
+const phaseDisplay = document.getElementById("phaseAngle");
+
+phaseDisplay.innerText =
+    `${Number(phi).toFixed(2)}°`;
+    
+    animateProbabilities(
+       data.p0 * 100,
+       data.p1 * 100,
+900
+);
+    const viewMode = document.getElementById("viewMode").value;
+
+    ctx.clearRect(0, 0, 300, 300);
+
+    ctx.strokeStyle = "white";
+    ctx.fillStyle = "white";
+    ctx.lineWidth = 2;
+
+    ctx.beginPath();
+    ctx.arc(150,150,100,0,2*Math.PI);
+    ctx.stroke();
+
+    let dotX;
+    let dotY;
+
+    if (viewMode === "xz") {
+        dotX = 150 + data.x * 100;
+        dotY = 150 - data.z * 100;
+    }
+    else if (viewMode === "xy") {
+        dotX = 150 + data.x * 100;
+        dotY = 150 - data.y * 100;
+    }
+    else if (viewMode === "yz") {
+        dotX = 150 + data.y * 100;
+        dotY = 150 - data.z * 100;
+    }
+
+    ctx.beginPath();
+    ctx.moveTo(150,150);
+    ctx.lineTo(dotX,dotY);
+    ctx.stroke();
+
+    ctx.beginPath();
+    ctx.arc(dotX, dotY, 5, 0, 2*Math.PI);
+    ctx.fill();
+    ctx.font = "20px Arial";
+
+    if (viewMode === "xz") {
+        ctx.fillText("|0>", 140, 40);
+        ctx.fillText("|1>", 140, 280);
+        ctx.fillText("|+>", 260, 155);
+        ctx.fillText("|->", 20, 155);
+    }
+    else if (viewMode === "xy") {
+         ctx.fillText("+Y", 140, 40);
+         ctx.fillText("-Y", 140, 280);
+         ctx.fillText("|+>", 260, 155);
+         ctx.fillText("|->", 20, 155);
+    }
+    else if (viewMode === "yz") {
+        ctx.fillText("|0>", 140, 40);
+        ctx.fillText("|1>", 140, 280);
+        ctx.fillText("+Y", 260, 155);
+        ctx.fillText("-Y", 20, 155);
+    }
+   
+    document.getElementById("state").innerHTML =
+
+       `|ψ⟩ = cos(θ/2)|0⟩ + e<sup>iφ</sup> sin(θ/2)|1⟩
+   <span class="stateValues">θ = ${theta}°, φ = ${phi}°</span>`;
+
+    document.getElementById("x").innerText =
+        "X: " + data.x.toFixed(3);
+
+    document.getElementById("y").innerText =
+        "Y: " + data.y.toFixed(3);
+
+    document.getElementById("z").innerText =
+        "Z: " + data.z.toFixed(3);
+animateBlochVectorTo(data.x, data.y, data.z);
+    }
+
+    document.getElementById("thetaSlider").addEventListener("input", function() {
+        document.getElementById("thetaInput").value = this.value;
+        calculate();
+    });
+ 
+    document.getElementById("phiSlider").addEventListener("input", function() {
+        document.getElementById("phiInput").value = this.value;
+        calculate();
+    
+    });
+
+ function explainGate(gate) {
+    const text = document.querySelector("#explanationPanel p");
+
+    if (gate === "X") {
+        text.innerText = "X gate: flips |0⟩ and |1⟩. On the Bloch sphere, it rotates the state 180° around the X-axis.";
+    }
+
+    else if (gate === "Y") {
+        text.innerText = "Y gate: rotates the state 180° around the Y-axis.";
+    }
+
+    else if (gate === "Z") {
+        text.innerText = "Z gate: changes the relative phase and rotates the state 180° around the Z-axis.";
+    }
+
+    else if (gate === "H") {
+        text.innerText = "Hadamard gate: moves basis states into equal superpositions and changes how amplitudes interfere.";
+    }
+
+    else if (gate === "S") {
+        text.innerText = "S gate: adds a 90° phase shift, rotating the state around the Z-axis.";
+    }
+
+    else if (gate === "T") {
+        text.innerText = "T gate: adds a 45° phase shift, rotating the state around the Z-axis.";
+    }
+   else if (gate === "M") {
+         text.innerText = "Measurment: measures the qubit and collapses the state to |0> or |1> according to its probabilites.";
+   }
+}
+     function applyXGate() {
+        const thetaInput = document.getElementById("thetaInput");
+        const thetaSlider = document.getElementById("thetaSlider");
+
+        const phiInput = document.getElementById("phiInput");
+        const phiSlider = document.getElementById("phiSlider");
+       
+        let theta = Number(thetaInput.value);
+        let newTheta = 180 - theta;
+
+        if (newTheta < 0) {
+            newTheta = newTheta + 360;
+        }
+
+        thetaInput.value = newTheta;
+        thetaSlider.value = newTheta;
+        history += "X ";
+        document.getElementById("history").innerText = history;
+        registerChallengeGate();
+         explainGate("X");
+        calculate();
+    }
+
+    function applyZGate() {
+        const pilInput = document.getElementById("phiInput");
+        const phiSlider = document.getElementById("phiSlider");
+
+        const newPhi = (Number(phiInput.value) + 180) % 360;
+
+        phiInput.value = newPhi;
+        phiSlider.value = newPhi;
+        history += "Z ";
+        document.getElementById("history").innerText = history;
+        registerChallengeGate();
+        explainGate("Z")
+        calculate();
+    }
+
+    function applyHGate() {
+        document.getElementById("thetaInput").value = 90;
+        document.getElementById("thetaSlider").value = 90;
+        history += "H ";
+        document.getElementById("history").innerText =history;
+        registerChallengeGate();
+        explainGate("H")
+        calculate();
+    }
+   function measurmentQubit() {
+        const thetaInput = document.getElementById("thetaInput");
+        const thetaSlider = document.getElementById("thetaSlider");
+
+        const theta = Number(thetaInput.value);
+        const thetaRad = theta * Math.PI / 180;
+
+        const p0 = Math.cos(thetaRad / 2) ** 2;
+
+        const randomNumber = Math.random();
+
+        let newTheta;
+
+        if (randomNumber < p0) {
+            newTheta = 0;
+        } else {
+            newTheta = 180;
+        }
+
+        thetaInput.value = newTheta;
+        thetaSlider.value = newTheta;
+        history += "M ";
+        updateCircuit();
+        
+        explainGate("M");
+        calculate();
+    }
+   window.measurmentQubit = measurmentQubit;
+        function applyYGate() {
+            thetaInput.value = 180 - Number(thetaInput.value);
+
+        phiInput.value =
+            (Number(phiInput.value) + 180) % 360;
+        
+        thetaSlider.value = thetaInput.value;
+        phiSlider.value = phiInput.value;
+        history += "Y ";
+        updateCircuit();
+        explainGate("Y")
+        calculate();
+
+     }
+        
+        function applySGate() {
+            phiInput.value = (Number(phiInput.value) + 90) % 360;
+            phiSlider.value = phiInput.value;
+
+            history += "S ";
+            registerChallengeGate();
+            updateCircuit();
+            explainGate("S")
+            calculate();
+     }
+   
+        function resetQubit() {
+            document.getElementById("thetaInput").value = 0;
+            document.getElementById("thetaSlider").value = 0;
+            
+            history = "";
+
+            document.getElementById("phiInput").value = 0;
+            document.getElementById("phiSlider").value = 0;
+
+            document.getElementById("history").innerText = history;
+            document.getElementById("circuit").innerText = "Circuit:";
+
+            updateCircuit();
+
+            calculate();
+     }
+
+       function applyTGate() {
+          phiInput.value = (Number(phiInput.value) + 45) % 360;
+          phiSlider.value = phiInput.value;
+
+          history += "T ";
+          registerChallengeGate();
+          updateCircuit();
+         explainGate("T")
+         calculate();
+
+     }
+    
+      function randomCircuit() {
+           const gates = [
+               applyXGate,
+               applyYGate,
+               applyZGate,
+               applyHGate,
+               applySGate,
+               applyTGate,
+     ];
+     const randomGate =
+          gates[Math.floor(Math.random() * gates.length)];
+
+     randomGate();
+
+     }
+   window.randomCircuit = randomCircuit;
+
+  let circuitRunning = false;
+async function runRandomCircuit() {
+   const gateCountInput = document.getElementById("gateCount");
+   const gateCount = Number(gateCountInput.value);
+   
+   if (!Number.isInteger(gateCount) || gateCount < 1 || gateCount > 50) {
+       alert("Choose a whole number from 1 to 50.");
+       return;
+}
+circuitRunning = true;
+
+for (let i = 0; i < gateCount; i++) {
+    if (!circuitRunning) {
+      break;
+}
+
+randomCircuit();
+
+await new Promise(resolve =>
+  setTimeout(resolve, 600)
+);
+}
+circuitRunning = false;
+}
+function stopRandomCircuit() {
+   circuitRunning = false;
+}
+      function updateCircuit() {
+       document.getElementById("history").innerText = history;
+
+       const gates = history.trim().split(" ");
+
+       let circuitText = "|0> ";
+
+       for (let gate of gates) {
+
+            let color = "black";
+
+            if (gate === "H") color = "blue";
+            if (gate === "X") color = "red";
+            if (gate === "Y") color = "green";
+            if (gate === "Z") color = "purple";
+            if (gate === "S") color = "orange";
+            if (gate === "T") color = "brown";
+            if (gate === "M") color = "gray";
+
+           if (gate !=="") {
+            circuitText +=
+                "--<span style='color:" +
+                color +
+                "'>[" +
+                gate +
+                "]</span>";
+           }
+       }
+
+ circuitText += "--";
+
+document.getElementById("circuit").innerHTML =
+    circuitText;
+    }
+      
+    document.getElementById("viewMode").addEventListener("change", calculate);
+    document.getElementById("thetaInput").addEventListener("input", calculate);
+    document.getElementById("phiInput").addEventListener("input", calculate);
+
+    
+function animateBlochVectorTo(targetX, targetY, targetZ, duration = 1000) {
+
+  const start = endpoint3D.position.clone().normalize();
+
+  const end = new THREE.Vector3(
+      targetX,
+      targetY,
+      targetZ
+    ).normalize();
+
+const rotation = new THREE.Quaternion()
+   .setFromUnitVectors(start, end);
+
+const identity = new THREE.Quaternion();
+
+const startTime = performance.now();
+
+function step(now) {
+     const t = Math.min((now - startTime) / duration, 1);
+
+const smoothT =
+t * t * t * (t * (t * 6 - 15) + 10);
+
+const currentRotation = 
+   new THREE.Quaternion().slerpQuaternions(
+   identity,
+   rotation,
+   smoothT
+);
+
+const current = start
+   .clone()
+   .applyQuaternion(currentRotation)
+   .normalize();
+
+updateBlochSphere3D(
+   current.x,
+   current.y,
+   current.z
+);
+
+if (t < 1) {
+     requestAnimationFrame(step);
+    }
+}
+
+requestAnimationFrame(step);
+}
+function animateBlochSphere3D() {
+    requestAnimationFrame(animateBlochSphere3D);
+   // controls3D.upadate();
+
+    renderer3D.render(scene3D, camera3D);
+}
+animateBlochSphere3D();
+calculate();
+
+let activeChallenge = null;
+let challengeGateCount = 0;
+let challengeScore = 0;
+
+
+const challengeStates = {
+    zero: {
+        name: "|0⟩",
+        x: 0,
+        y: 0,
+        z: 1
+    },
+
+    one: {
+        name: "|1⟩",
+        x: 0,
+        y: 0,
+        z: -1
+    },
+
+    plus: {
+        name: "|+⟩",
+        x: 1,
+        y: 0,
+        z: 0
+    },
+
+    minus: {
+        name: "|-⟩",
+        x: -1,
+        y: 0,
+        z: 0
+    },
+
+    plusI: {
+        name: "|+i⟩",
+        x: 0,
+        y: 1,
+        z: 0
+    },
+
+    minusI: {
+        name: "|-i⟩",
+        x: 0,
+        y: -1,
+        z: 0
+    }
+};
+
+
+function newChallenge() {
+    const difficulty =
+        document.getElementById("challengeDifficulty").value;
+
+    let allowedStates;
+    let gateLimit;
+
+    if (difficulty === "easy") {
+        allowedStates = [
+            challengeStates.zero,
+            challengeStates.one,
+            challengeStates.plus
+        ];
+
+        gateLimit = 3;
+    }
+
+    else if (difficulty === "medium") {
+        allowedStates = [
+            challengeStates.zero,
+            challengeStates.one,
+            challengeStates.plus,
+            challengeStates.minus
+        ];
+
+        gateLimit = 4;
+    }
+
+    else {
+        allowedStates = Object.values(challengeStates);
+        gateLimit = 5;
+    }
+
+
+    const randomIndex =
+        Math.floor(Math.random() * allowedStates.length);
+
+    const selectedState =
+        allowedStates[randomIndex];
+
+
+    activeChallenge = {
+        target: selectedState,
+        gateLimit: gateLimit,
+        difficulty: difficulty
+    };
+
+
+    challengeGateCount = 0;
+
+    document.getElementById("gateCountUsed").innerText = 0;
+    document.getElementById("gateLimit").innerText = gateLimit;
+
+    document.getElementById("challengeTarget").innerText =
+        "Reach the target state: " + selectedState.name;
+
+    document.getElementById("challengeFeedback").innerText =
+        "Challenge started.";
+}
+
+
+function registerChallengeGate() {
+    if (!activeChallenge) {
+        return;
+    }
+
+    challengeGateCount++;
+
+    document.getElementById("gateCountUsed").innerText =
+        challengeGateCount;
+}
+
+
+function checkChallenge() {
+    if (!activeChallenge) {
+        document.getElementById("challengeFeedback").innerText =
+            "Start a challenge first.";
+
+        return;
+    }
+
+
+    const theta =
+        THREE.MathUtils.degToRad(
+            Number(
+                document.getElementById("thetaInput").value
+            )
+        );
+
+    const phi =
+        THREE.MathUtils.degToRad(
+            Number(
+                document.getElementById("phiInput").value
+            )
+        );
+
+
+    const currentState = {
+        x: Math.sin(theta) * Math.cos(phi),
+        y: Math.sin(theta) * Math.sin(phi),
+        z: Math.cos(theta)
+    };
+
+
+    const target =
+        activeChallenge.target;
+
+
+    const tolerance = 0.05;
+
+
+    const xMatch =
+        Math.abs(currentState.x - target.x) < tolerance;
+
+    const yMatch =
+        Math.abs(currentState.y - target.y) < tolerance;
+
+    const zMatch =
+        Math.abs(currentState.z - target.z) < tolerance;
+
+
+    const success =
+        xMatch &&
+        yMatch &&
+        zMatch;
+
+
+    if (success) {
+        let points = 100;
+
+        points -= challengeGateCount * 10;
+
+        if (activeChallenge.difficulty === "medium") {
+            points += 25;
+        }
+
+        if (activeChallenge.difficulty === "hard") {
+            points += 50;
+        }
+
+        points = Math.max(points, 10);
+
+        challengeScore += points;
+
+
+        document.getElementById("challengeScore").innerText =
+            challengeScore;
+
+
+        document.getElementById("challengeFeedback").innerText =
+            "Success! You reached " +
+            target.name +
+            " using " +
+            challengeGateCount +
+            " gates. +" +
+            points +
+            " points.";
+
+
+        activeChallenge = null;
+    }
+
+    else {
+        let message =
+            "Not there yet. ";
+
+        message +=
+            "Current Bloch vector ≈ (" +
+            currentState.x.toFixed(2) +
+            ", " +
+            currentState.y.toFixed(2) +
+            ", " +
+            currentState.z.toFixed(2) +
+            ").";
+
+        document.getElementById("challengeFeedback").innerText =
+            message;
+    }
+}
+window.applyXGate = applyXGate;
+window.applyYGate = applyYGate;
+window.applyZGate = applyZGate;
+window.applyHGate = applyHGate;
+
+window.applySGate = applySGate;
+window.applyTGate = applyTGate;
+
+window.resetQubit = resetQubit;
+window.measurementQubit = measurmentQubit;
+window. runRandomCircuit = runRandomCircuit;
+window.stopRandomCircuit = stopRandomCircuit;
+window.calculate = calculate;
+window.newChallenge = newChallenge;
+window.checkChallenge = checkChallenge;
+    </script>
+
+    <section class="bloch-about">
+
+    <h1>All About the Bloch Sphere</h1>
+
+    <p class="about-intro">
+        The Bloch sphere is a geometric representation of the quantum state
+        of a single two-level quantum system, or qubit. This guide explains
+        how to read the sphere, understand quantum states, use quantum gates,
+        interpret measurements, and apply the simulator to more advanced
+        quantum-mechanics investigations.
+    </p>
+
+    <!-- BLOCH SPHERE BASICS -->
+    <details open>
+        <summary>Understanding the Bloch Sphere</summary>
+
+        <div class="about-content">
+            <p>
+                A general pure qubit state can be written as:
+            </p>
+
+            <div class="equation">
+                |ψ⟩ = cos(θ/2)|0⟩ + e<sup>iφ</sup>sin(θ/2)|1⟩
+            </div>
+
+            <p>
+                Instead of thinking only in terms of complex amplitudes,
+                the Bloch sphere converts the state into a direction in
+                three-dimensional space.
+            </p>
+
+            <p>
+                The angle <strong>θ</strong> determines how far the state is
+                between the north and south poles. The angle
+                <strong>φ</strong> determines its direction around the sphere.
+            </p>
+
+            <div class="info-box">
+                <strong>North Pole:</strong> |0⟩<br>
+                <strong>South Pole:</strong> |1⟩<br>
+                <strong>Equator:</strong> Equal-probability superpositions
+            </div>
+
+            <p>
+                For example, the state
+            </p>
+
+            <div class="equation">
+                |+⟩ = (|0⟩ + |1⟩) / √2
+            </div>
+
+            <p>
+                lies on the equator. The state
+            </p>
+
+            <div class="equation">
+                |-⟩ = (|0⟩ - |1⟩) / √2
+            </div>
+
+            <p>
+                lies on the opposite side of the equator.
+            </p>
+        </div>
+    </details>
+
+
+    <!-- COMPONENTS -->
+    <details>
+        <summary>Components of the Bloch Vector</summary>
+
+        <div class="about-content">
+
+            <p>
+                A pure qubit can also be represented by a three-dimensional
+                Bloch vector:
+            </p>
+
+            <div class="equation">
+                r = (sinθ cosφ, sinθ sinφ, cosθ)
+            </div>
+
+            <p>
+                Its X, Y, and Z components have a direct quantum-mechanical
+                interpretation:
+            </p>
+
+            <div class="equation">
+                x = ⟨σx⟩
+                <br>
+                y = ⟨σy⟩
+                <br>
+                z = ⟨σz⟩
+            </div>
+
+            <p>
+                These are expectation values of the Pauli operators.
+                This means that the geometry of the Bloch sphere is connected
+                to quantities that can be determined experimentally.
+            </p>
+
+        </div>
+    </details>
+
+
+    <!-- PURE AND MIXED STATES -->
+    <details>
+        <summary>Pure States and Mixed States</summary>
+
+        <div class="about-content">
+
+            <h3>Pure States</h3>
+
+            <p>
+                A pure state represents a completely specified quantum state.
+                Pure states lie on the surface of the Bloch sphere.
+            </p>
+
+            <div class="equation">
+                |r| = 1
+            </div>
+
+            <h3>Mixed States</h3>
+
+            <p>
+                Real quantum systems may interact with their environment or
+                contain uncertainty in their preparation. These systems can
+                require a density matrix rather than a single state vector.
+            </p>
+
+            <div class="equation">
+                ρ = ½(I + r · σ)
+            </div>
+
+            <p>
+                Mixed states lie inside the sphere:
+            </p>
+
+            <div class="equation">
+                |r| &lt; 1
+            </div>
+
+            <p>
+                At the exact center of the sphere,
+            </p>
+
+            <div class="equation">
+                r = 0
+                <br><br>
+                ρ = I/2
+            </div>
+
+            <p>
+                which represents the maximally mixed single-qubit state.
+            </p>
+
+        </div>
+    </details>
+
+
+    <!-- QUANTUM GATES -->
+    <details>
+        <summary>Quantum Gates</summary>
+
+        <div class="about-content">
+
+            <p>
+                Quantum gates transform quantum states. For a single qubit,
+                unitary transformations can be interpreted geometrically as
+                rotations of the Bloch sphere.
+            </p>
+
+            <h3>X Gate</h3>
+
+            <div class="gate-matrix">
+                X = [ 0 &nbsp; 1 ]<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;[ 1 &nbsp; 0 ]
+            </div>
+
+            <p>
+                The X gate exchanges |0⟩ and |1⟩ and corresponds to a
+                180° rotation around the X-axis.
+            </p>
+
+            <div class="equation">
+                X|0⟩ = |1⟩
+            </div>
+
+
+            <h3>Y Gate</h3>
+
+            <div class="gate-matrix">
+                Y = [ 0 &nbsp; -i ]<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;[ i &nbsp;&nbsp;&nbsp; 0 ]
+            </div>
+
+            <p>
+                The Y gate produces a 180° rotation around the Y-axis.
+                It changes both the computational-basis amplitudes and their
+                relative phase.
+            </p>
+
+
+            <h3>Z Gate</h3>
+
+            <div class="gate-matrix">
+                Z = [ 1 &nbsp;&nbsp; 0 ]<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;[ 0 &nbsp; -1 ]
+            </div>
+
+            <p>
+                The Z gate corresponds to a 180° rotation around the Z-axis.
+                It leaves |0⟩ unchanged while changing the sign of the
+                |1⟩ amplitude.
+            </p>
+
+            <div class="equation">
+                Z|0⟩ = |0⟩
+                <br>
+                Z|1⟩ = -|1⟩
+            </div>
+
+            <p>
+                This demonstrates something important: a quantum state can
+                change even when its probabilities of measuring 0 and 1 do
+                not change. Relative phase contains quantum information.
+            </p>
+
+
+            <h3>Hadamard Gate</h3>
+
+            <div class="equation">
+                H = (1/√2) [ 1 &nbsp;&nbsp; 1 ]
+                <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                [ 1 &nbsp; -1 ]
+            </div>
+
+            <p>
+                The Hadamard gate can move a computational-basis state into
+                an equal superposition.
+            </p>
+
+            <div class="equation">
+                H|0⟩ = |+⟩
+                <br><br>
+                |+⟩ = (|0⟩ + |1⟩)/√2
+            </div>
+
+        </div>
+    </details>
+
+
+    <!-- USING THE SIMULATOR -->
+    <details>
+        <summary>Simulator Instruction Manual</summary>
+
+        <div class="about-content">
+
+            <h3>Step 1 — Choose a State</h3>
+
+            <p>
+                Begin with a known quantum state. For example, start at |0⟩.
+                The Bloch vector should point toward the north pole.
+            </p>
+
+            <h3>Step 2 — Apply a Gate</h3>
+
+            <p>
+                Select one of the available quantum gates. Watch how the
+                Bloch vector moves around the sphere.
+            </p>
+
+            <h3>Step 3 — Identify the Rotation</h3>
+
+            <p>
+                Do not only look at the final position. Determine which axis
+                the vector rotated around and how the gate changed the
+                quantum state.
+            </p>
+
+            <h3>Step 4 — Combine Gates</h3>
+
+            <p>
+                Try sequences of gates instead of applying only one.
+            </p>
+
+            <div class="equation">
+                |0⟩ → H → |+⟩
+                <br><br>
+                |+⟩ → Z → |-⟩
+                <br><br>
+                |-⟩ → H → |1⟩
+            </div>
+
+            <p>
+                Therefore:
+            </p>
+
+            <div class="equation">
+                HZH|0⟩ = |1⟩
+            </div>
+
+            <h3>Step 5 — Compare With the Mathematics</h3>
+
+            <p>
+                Calculate the transformation using matrices and compare your
+                mathematical prediction with the simulator.
+            </p>
+
+        </div>
+    </details>
+
+
+    <!-- MEASUREMENT -->
+    <details>
+        <summary>Quantum Measurement</summary>
+
+        <div class="about-content">
+
+            <p>
+                For the state
+            </p>
+
+            <div class="equation">
+                |ψ⟩ = cos(θ/2)|0⟩ + e<sup>iφ</sup>sin(θ/2)|1⟩
+            </div>
+
+            <p>
+                measurement in the computational basis gives:
+            </p>
+
+            <div class="equation">
+                P(0) = cos²(θ/2)
+                <br><br>
+                P(1) = sin²(θ/2)
+            </div>
+
+            <p>
+                Notice that φ does not appear in these probabilities.
+                Measuring only in the Z basis therefore cannot reveal all
+                information about the relative phase.
+            </p>
+
+            <p>
+                Measurements along different axes can be used to investigate
+                different components of the Bloch vector.
+            </p>
+
+        </div>
+    </details>
+
+
+    <!-- RESEARCH -->
+    <details>
+        <summary>Using the Bloch Sphere for Research</summary>
+
+        <div class="about-content">
+
+            <p>
+                The Bloch sphere becomes much more powerful when it is used
+                as a mathematical laboratory rather than only as a picture
+                of a qubit.
+            </p>
+
+            <h3>Study Arbitrary Rotations</h3>
+
+            <p>
+                Investigate rotations around different axes and compare their
+                matrix representations with their geometric effects.
+            </p>
+
+            <div class="equation">
+                U = Rz(α) Ry(β) Rx(γ)
+            </div>
+
+            <h3>Investigate Gate Errors</h3>
+
+            <p>
+                Real quantum gates are imperfect. You can model a small
+                rotation error by replacing
+            </p>
+
+            <div class="equation">
+                Rx(θ)
+            </div>
+
+            <p>with</p>
+
+            <div class="equation">
+                Rx(θ + ε)
+            </div>
+
+            <p>
+                and studying how the final state changes as the error ε
+                increases.
+            </p>
+
+
+            <h3>Study Decoherence</h3>
+
+            <p>
+                An advanced version of the simulator can represent density
+                matrices and allow the Bloch vector to move inside the sphere.
+                This makes it possible to visualize effects such as
+                dephasing, amplitude damping, and loss of coherence.
+            </p>
+
+
+            <h3>Quantum State Tomography</h3>
+
+            <p>
+                In an experiment, the state may not be known beforehand.
+                Measurements can instead be used to reconstruct it.
+            </p>
+
+            <div class="equation">
+                r = (⟨X⟩, ⟨Y⟩, ⟨Z⟩)
+            </div>
+
+            <p>
+                From the reconstructed Bloch vector, the density matrix can
+                be determined:
+            </p>
+
+            <div class="equation">
+                ρ = ½(I + r · σ)
+            </div>
+
+            <p>
+                This turns the simulator into a useful introduction to
+                quantum-state characterization and experimental quantum
+                information.
+            </p>
+
+        </div>
+    </details>
+
+
+    <!-- LIMITATIONS -->
+    <details>
+        <summary>Limitations of the Bloch Sphere</summary>
+
+        <div class="about-content">
+
+            <p>
+                The standard Bloch sphere describes a single qubit extremely
+                well, but it cannot directly visualize an arbitrary
+                multi-qubit state.
+            </p>
+
+            <p>
+                A two-qubit pure state already lives in a four-dimensional
+                complex Hilbert space, and entanglement contains correlations
+                that cannot be represented simply by assigning each qubit an
+                independent Bloch vector.
+            </p>
+
+            <p>
+                The Bloch sphere should therefore be viewed as a powerful
+                geometric representation of a single two-level quantum
+                system and as an introduction to the larger mathematical
+                structure of quantum mechanics.
+            </p>
+
+        </div>
+    </details>
+
+</section>
+
+    </body>
+    </html>

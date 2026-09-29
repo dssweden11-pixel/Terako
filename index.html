@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Terrako Interactive Learning</title>
+
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+
+            background: #071b3d;
+            color: white;
+
+            font-family: Arial, sans-serif;
+        }
+
+        .hero {
+            text-align: center;
+            padding-top: 70px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            opacity: 0.75;
+        }
+
+        .main-options {
+            display: flex;
+            justify-content: center;
+            gap: 80px;
+
+            margin-top: 120px;
+        }
+
+        .option {
+            width: 320px;
+            text-align: center;
+        }
+
+        .option h2 {
+            font-size: 27px;
+        }
+
+        .option a {
+            display: inline-block;
+
+            margin-top: 18px;
+            padding: 14px 24px;
+
+            border: 1px solid #69b7ff;
+            border-radius: 10px;
+
+            color: white;
+            text-decoration: none;
+
+            transition: 0.25s;
+        }
+
+        .option a:hover {
+            background: rgba(105, 183, 255, 0.18);
+            transform: translateY(-3px);
+        }
+  
+      #cubeBackground {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+
+}
+    .lobby-section {
+         position: relative;
+         min-height: 100vh;
+         overflow: hidden;
+
+       -webkit-mask-image: linear-gradient(
+        to bottom,
+        black 0%,
+        black 82%,
+        transparent 100%
+    );
+
+    mask-image: linear-gradient(
+        to bottom,
+        black 0%,
+        black 82%,
+        transparent 100%
+    );
+    
+}
+
+}
+
+.hero,
+.main-options {
+    position: relative;
+    z-index: 2;
+}
+
+.floating-cube {
+    position: absolute;
+    bottom: -80px;
+
+    width: 34px;
+    height: 34px;
+
+    background: rgba(71, 169, 255, 0.28);
+
+    border: 1px solid rgba(125, 202, 255, 0.55);
+    border-radius: 5px;
+
+    box-shadow:
+        0 0 18px rgba(60, 160, 255, 0.22);
+
+    animation:
+        cubeRise var(--rise-time) linear forwards;
+
+    transform:
+        rotate(var(--rotation));
+}
+
+@keyframes cubeRise {
+
+    0% {
+        transform:
+            translateY(0)
+            translateX(0)
+            rotate(var(--rotation));
+
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 0.75;
+    }
+
+    70% {
+        opacity: 0.55;
+    }
+
+    100% {
+        transform:
+            translateY(-85vh)
+            translateX(var(--drift))
+            rotate(calc(var(--rotation) + 160deg));
+
+        opacity: 0;
+    }
+}
+
+.about-terrako {
+    position: relative;
+    z-index: 2;
+
+    margin-top: 150px;
+    padding: 120px 8% 140px;
+
+    background: linear-gradient(
+        to bottom
+        #061a30 0%
+        #04142e 35%
+        #04142e 100%
+        );
+
+    }
+
+.about-content {
+    max-width: 1100px;
+    margin: auto;
+}
+
+.about-label {
+    color: #69b7ff;
+
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 4px;
+
+    margin-bottom: 18px;
+}
+
+.about-content h2 {
+    max-width: 750px;
+
+    font-size: 48px;
+    line-height: 1.1;
+
+    margin: 0 0 30px;
+}
+
+.about-content h2 span {
+    color: #69b7ff;
+}
+
+.about-description {
+    max-width: 760px;
+
+    font-size: 19px;
+    line-height: 1.8;
+
+    color: #b8c7d9;
+}
+
+.about-features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 25px;
+    margin-top: 65px;
+}
+
+.about-card {
+    padding: 30px;
+
+    background:
+        rgba(30, 91, 150, 0.12);
+
+    border:
+        1px solid rgba(105, 183, 255, 0.18);
+
+    border-radius: 14px;
+}
+
+.about-card h3 {
+    margin-top: 0;
+
+    font-size: 22px;
+    color: #ffffff;
+}
+
+.about-card p {
+    line-height: 1.7;
+    color: #9fb2c9;
+}
+
+@media (max-width: 800px) {
+
+    .about-features {
+        grid-template-columns: 1fr;
+    }
+
+    .about-content h2 {
+        font-size: 36px;
+    }
+}
+
+.creator-section {
+    margin-top: 70px;
+    padding-top: 35px;
+
+    border-top: 1px solid rgba(105, 183, 255, 0.18);
+}
+
+.creator-label {
+    margin: 0 0 10px;
+
+    color: #69b7ff;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 3px;
+}
+
+.creator-section h3 {
+    margin: 0 0 10px;
+    font-size: 24px;
+}
+
+.creator-description {
+    color: #9fb2c9;
+    line-height: 1.6;
+}
+
+.creator-contact {
+    display: inline-block;
+    margin-top: 10px;
+
+    color: #69b7ff;
+    text-decoration: none;
+}
+
+    </style>
+</head>
+
+
+<body>
+
+  <div id="cubeBackground"></div>
+
+    <section class="hero">
+        <h1>Terrako Interactive Learning</h1>
+
+        <p>
+            Explore physics through interactive simulations
+            and problem solving.
+        </p>
+    </section>
+
+
+    <main class="main-options">
+
+        <section class="option">
+            <h2>Interactive Simulations</h2>
+
+            <p>
+                Explore quantum states using interactive
+                scientific visualizations.
+            </p>
+
+            <a href="simulation.html">
+                Open Bloch Sphere →
+            </a>
+        </section>
+
+
+        <section class="option">
+            <h2>Interactive Homework</h2>
+
+            <p>
+                Solve physics problems and visualize
+                your solutions.
+            </p>
+
+            <a href="homework.html">
+                Open Homework →
+            </a>
+        </section>
+
+    </main>
+
+</div>
+
+<section class="about-terrako" id="about">
+
+    <div class="about-content">
+
+        <p class="about-label">ABOUT TERRAKO</p>
+
+        <h2>
+            Learning physics by
+            <span>actually using it.</span>
+        </h2>
+
+        <p class="about-description">
+            Terrako is an interactive learning platform built around
+            understanding, visualization, and problem solving.
+            Instead of only memorizing equations, learners can explore
+            the mathematics, manipulate simulations, and see how their
+            solutions affect physical systems.
+        </p>
+
+        <div class="about-features">
+
+            <div class="about-card">
+                <h3>Visualize</h3>
+                <p>
+                    Turn mathematical ideas into interactive
+                    visual models.
+                </p>
+      </div>
+
+                      
+
+            <div class="about-card">
+                <h3>Solve</h3>
+                <p>
+                    Work through equations and build the reasoning
+                    behind each solution.
+                </p>
+            </div>
+
+            <div class="about-card">
+                <h3>Apply</h3>
+                <p>
+                    Use your answer to change the simulation and
+                    immediately see what the mathematics means.
+                </p>
+            </div>
+
+        </div>
+<div class="creator-section">
+    <p class="creator-label">FOUNDER & CREATOR</p>
+
+    <h3>Daniel Alexander Solano</h3>
+
+    <p class="creator-description">
+        Creator of Terrako Interactive Learning.
+    </p>
+
+    <a href="#contact" class="creator-contact">
+        Contact Terrako →
+    </a>
+</div>
+    
+</section>
+
+   <script>
+    const cubeBackground =
+        document.getElementById("cubeBackground");
+
+    function createFloatingCube() {
+
+        const cube = document.createElement("div");
+
+        cube.classList.add("floating-cube");
+
+        const size =
+            18 + Math.random() * 42;
+
+        cube.style.width = size + "px";
+        cube.style.height = size + "px";
+
+        cube.style.left =
+            Math.random() * 100 + "%";
+
+        cube.style.setProperty(
+            "--rise-time",
+            7 + Math.random() * 7 + "s"
+        );
+
+        cube.style.setProperty(
+            "--drift",
+            -80 + Math.random() * 160 + "px"
+        );
+
+        cube.style.setProperty(
+            "--rotation",
+            Math.random() * 360 + "deg"
+        );
+
+        cubeBackground.appendChild(cube);
+
+        cube.addEventListener("animationend", () => {
+            cube.remove();
+        });
+    }
+
+    // Create a new cube every 350 ms
+    setInterval(createFloatingCube, 350);
+
+    // Populate the background immediately
+    for (let i = 0; i < 12; i++) {
+        setTimeout(createFloatingCube, i * 120);
+    }
+</script>
+
+</body>
+
+</html>

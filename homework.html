@@ -1,0 +1,3504 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Terrako Interactive Homework</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+
+            font-family: Arial, sans-serif;
+            color: white;
+
+            background:
+                radial-gradient(
+                    circle at 50% 20%,
+                    #0d4f85 0%,
+                    #062c50 35%,
+                    #031a31 70%,
+                    #020f1f 100%
+                );
+        }
+
+        .homework-page {
+            width: min(1200px, 92%);
+            margin: auto;
+            padding: 50px 0 100px;
+        }
+
+        .back-link {
+            color: #69b7ff;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .homework-header {
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        .homework-header h1 {
+            margin-bottom: 12px;
+            font-size: 48px;
+        }
+
+        .homework-header p {
+            color: #a9bdd2;
+            font-size: 18px;
+        }
+
+
+        /* MODE BUTTONS */
+
+        .mode-selector {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+
+            margin-top: 35px;
+        }
+
+        .mode-button {
+            padding: 13px 25px;
+
+            border: 1px solid rgba(105, 183, 255, 0.45);
+            border-radius: 10px;
+
+            background: rgba(105, 183, 255, 0.08);
+            color: white;
+
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .mode-button:hover {
+            background: rgba(105, 183, 255, 0.18);
+        }
+
+
+        /* MAIN WORKSPACE */
+
+        .homework-workspace {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+
+            margin-top: 55px;
+        }
+
+        .problem-panel,
+        .bloch-panel {
+            min-height: 480px;
+
+            padding: 30px;
+
+            border: 1px solid rgba(105, 183, 255, 0.2);
+            border-radius: 18px;
+
+            background: rgba(3, 27, 52, 0.72);
+        }
+
+        .panel-label {
+            color: #69b7ff;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 3px;
+        }
+
+        .problem-panel h2,
+        .bloch-panel h2 {
+            margin-top: 12px;
+        }
+
+
+        /* TEMPORARY BLOCH AREA */
+
+        #homeworkBlochSphere {
+            height: 360px;
+            margin-top: 25px;
+
+            border-radius: 14px;
+
+            background: rgba(0, 0, 0, 0.22);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: #69b7ff;
+        }
+
+.equation-area {
+    margin-top: 35px;
+}
+
+.equation-label,
+.work-label {
+    margin-top: 30px;
+
+    color: #69b7ff;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.given-equation {
+    margin-top: 12px;
+    padding: 20px;
+
+    border: 1px solid rgba(105, 183, 255, 0.25);
+    border-radius: 12px;
+
+    background: rgba(105, 183, 255, 0.08);
+
+    font-family: "Times New Roman", serif;
+    font-size: 21px;
+    text-align: center;
+}
+
+.operation-chain {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    margin-top: 15px;
+}
+
+.work-box {
+    width: 110px;
+    padding: 11px;
+
+    border: 1px solid rgba(105, 183, 255, 0.3);
+    border-radius: 8px;
+
+    background: rgba(0, 0, 0, 0.2);
+    color: white;
+
+    text-align: center;
+}
+
+.work-arrow {
+    color: #69b7ff;
+    font-size: 20px;
+}
+
+.final-answer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    margin-top: 25px;
+
+    font-size: 20px;
+}
+
+#phiAnswer {
+    width: 120px;
+    padding: 10px;
+
+    border: 1px solid rgba(105, 183, 255, 0.4);
+    border-radius: 8px;
+
+    background: rgba(0, 0, 0, 0.25);
+    color: white;
+}
+
+#checkAnswer {
+    margin-top: 25px;
+    padding: 12px 22px;
+
+    border: 1px solid #69b7ff;
+    border-radius: 9px;
+
+    background: rgba(105, 183, 255, 0.12);
+    color: white;
+
+    cursor: pointer;
+}
+
+    </style>
+</head>
+
+
+<body>
+
+    <main class="homework-page">
+
+        <a href="home.html" class="back-link">
+            ← Back to Terrako
+        </a>
+
+
+        <header class="homework-header">
+
+            <h1>Interactive Homework</h1>
+
+            <p>
+                Solve the mathematics. Watch the quantum state respond.
+            </p>
+
+
+            <div class="mode-selector">
+
+                <button
+                    class="mode-button"
+                    id="introMode">
+                    Introductory
+                </button>
+
+                <button
+                    class="mode-button"
+                    id="advancedMode">
+                    Advanced
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <section class="homework-workspace">
+
+            <!-- LEFT SIDE -->
+
+            <div class="problem-panel">
+
+                <span class="panel-label">
+                    PROBLEM
+                </span>
+
+                <h2 id="problemTitle">
+                    Introductory Bloch Sphere
+                </h2>
+
+                <p id="problemInstructions">
+                    Determine the phase angle φ of the quantum state.
+                </p>
+
+              <div class="equation-area">
+
+    <p class="equation-label">QUANTUM STATE</p>
+
+    <div class="given-equation" id="givenEquation">
+        |ψ⟩ = cos(θ/2)|0⟩ + e<sup>iφ</sup> sin(θ/2)|1⟩
+    </div>
+
+
+    <p class="work-label">SHOW YOUR WORK</p>
+
+    <div class="operation-chain">
+
+       <label class="step-label">
+    Find θ/2
+</label>
+
+        <input
+            type="text"
+            class="work-box"
+            id="step1"
+            placeholder="Step 1"
+        >
+
+        <span class="work-arrow">→</span>
+
+       <label class="step-label">
+    Find θ
+</label>
+
+        <input
+            type="text"
+            class="work-box"
+            id="step2"
+            placeholder="Step 2"
+        >
+
+        <span class="work-arrow">→</span>
+    
+        <label class="step-label">
+    Find φ
+</label>
+
+        <input
+            type="text"
+            class="work-box"
+            id="step3"
+            placeholder="Step 3"
+        >
+
+    </div>
+<div class="work-arrow">→</div>
+
+<div class="work-step">
+    <label for="probability0">
+        Find P(0)
+    </label>
+
+    <input
+        type="number"
+        id="probability0"
+        class="work-box"
+        placeholder="P(0)"
+        min="0"
+        max="100"
+        step="0.1"
+    >
+
+    <span class="probability-unit">%</span>
+</div>
+
+
+<div class="work-arrow">→</div>
+
+<div class="work-step">
+    <label for="probability1">
+        Find P(1)
+    </label>
+
+    <input
+        type="number"
+        id="probability1"
+        class="work-box"
+        placeholder="P(1)"
+        min="0"
+        max="100"
+        step="0.1"
+    >
+
+    <span class="probability-unit">%</span>
+</div>
+
+
+    <div class="final-answer">
+
+        <label for="phiAnswer">
+            φ =
+        </label>
+
+        <input
+            type="number"
+            id="phiAnswer"
+            placeholder="degrees"
+        >
+
+        <span>°</span>
+
+    </div>
+
+
+    <button id="checkAnswer">
+        Check Answer
+    </button>
+
+</div>
+
+            </div>
+
+
+            <!-- RIGHT SIDE -->
+
+            <div class="bloch-panel">
+
+                <span class="panel-label">
+                    LIVE VISUALIZATION
+                </span>
+
+                <h2>Bloch Sphere</h2>
+
+                <div id="homeworkBlochSphere">
+                    Bloch Sphere will render here
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+ 
+<script type="importmap">
+{
+    "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    }
+}
+</script>
+
+<script type="module">
+
+import * as THREE from "three";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+
+let targetTheta = 90;
+let targetPhi = 45;
+
+let studentTheta = 0;
+let studentPhi = 0;
+
+
+// FIND THE BLOCH CONTAINER
+const container =
+    document.getElementById("homeworkBlochSphere");
+
+container.innerHTML = "";
+
+
+// CREATE SCENE
+const scene = new THREE.Scene();
+
+
+// CREATE CAMERA
+const camera = new THREE.PerspectiveCamera(
+    45,
+    container.clientWidth / container.clientHeight,
+    0.1,
+    100
+);
+
+camera.position.set(3, 2.4, 3);
+
+
+// CREATE RENDERER
+const renderer = new THREE.WebGLRenderer({
+    antialias: true,
+    alpha: true
+});
+
+renderer.setPixelRatio(
+    Math.min(window.devicePixelRatio, 2)
+);
+
+renderer.setSize(
+    container.clientWidth,
+    container.clientHeight
+);
+
+container.appendChild(renderer.domElement);
+
+
+// CAMERA CONTROLS
+const controls =
+    new OrbitControls(camera, renderer.domElement);
+
+controls.enableDamping = true;
+
+
+// CREATE BLOCH SPHERE
+const sphereGeometry =
+    new THREE.SphereGeometry(1, 48, 48);
+
+const sphereMaterial =
+    new THREE.MeshBasicMaterial({
+        color: 0x2f8cff,
+        transparent: true,
+        opacity: 0.15,
+        wireframe: true
+    });
+
+const sphere =
+    new THREE.Mesh(
+        sphereGeometry,
+        sphereMaterial
+    );
+
+scene.add(sphere);
+
+
+// AXES
+function createAxis(start, end, color) {
+
+    const geometry =
+        new THREE.BufferGeometry().setFromPoints([
+            start,
+            end
+        ]);
+
+    const material =
+        new THREE.LineBasicMaterial({
+            color: color
+        });
+
+    return new THREE.Line(
+        geometry,
+        material
+    );
+}
+
+
+scene.add(
+    createAxis(
+        new THREE.Vector3(-1.3, 0, 0),
+        new THREE.Vector3(1.3, 0, 0),
+        0xff5555
+    )
+);
+
+scene.add(
+    createAxis(
+        new THREE.Vector3(0, -1.3, 0),
+        new THREE.Vector3(0, 1.3, 0),
+        0x55ff88
+    )
+);
+
+scene.add(
+    createAxis(
+        new THREE.Vector3(0, 0, -1.3),
+        new THREE.Vector3(0, 0, 1.3),
+        0x55aaff
+    )
+);
+
+
+// BLOCH STATE
+let currentTheta = 90;
+let currentPhi = 45;
+
+
+function getBlochDirection(thetaDegrees, phiDegrees) {
+
+    const theta =
+        THREE.MathUtils.degToRad(thetaDegrees);
+
+    const phi =
+        THREE.MathUtils.degToRad(phiDegrees);
+
+    const x =
+        Math.sin(theta) * Math.cos(phi);
+
+    const y =
+        Math.sin(theta) * Math.sin(phi);
+
+    const z =
+        Math.cos(theta);
+
+    return new THREE.Vector3(x, y, z);
+}
+
+
+// STATE VECTOR
+ const stateVector =
+    new THREE.ArrowHelper(
+        getBlochDirection(currentTheta, currentPhi),
+        new THREE.Vector3(0, 0, 0),
+        1,
+        0xffff55,
+        0.12,
+        0.07
+    );
+
+scene.add(stateVector);
+
+function updateStudentVector() {
+
+    const theta =
+        THREE.MathUtils.degToRad(studentTheta);
+
+    const phi =
+        THREE.MathUtils.degToRad(studentPhi);
+
+    const x =
+        Math.sin(theta) * Math.cos(phi);
+
+    const y =
+        Math.sin(theta) * Math.sin(phi);
+
+    const z =
+        Math.cos(theta);
+
+    const direction =
+        new THREE.Vector3(x, y, z).normalize();
+
+    stateVector.setDirection(direction);
+}
+
+updateStudentVector();
+
+// THIS WILL LET OUR HOMEWORK CHANGE THE STATE LATER
+function updateHomeworkState(theta, phi) {
+
+    currentTheta = theta;
+    currentPhi = phi;
+
+    stateVector.setDirection(
+        getBlochDirection(theta, phi)
+    );
+}
+
+
+// RENDER LOOP
+function animate() {
+
+    requestAnimationFrame(animate);
+
+    controls.update();
+
+    renderer.render(scene, camera);
+}
+
+animate();
+
+
+// HANDLE WINDOW RESIZING
+window.addEventListener("resize", () => {
+
+    const width = container.clientWidth;
+    const height = container.clientHeight;
+
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+
+    renderer.setSize(width, height);
+});
+
+const introProblems = [
+    {
+        theta: 90,
+        phi: 0,
+        equation: "|ψ⟩ = cos(45°)|0⟩ + sin(45°)|1⟩"
+    },
+
+    {
+        theta: 90,
+        phi: 45,
+        equation: "|ψ⟩ = cos(45°)|0⟩ + e^(i45°)sin(45°)|1⟩"
+    },
+
+    {
+        theta: 90,
+        phi: 90,
+        equation: "|ψ⟩ = cos(45°)|0⟩ + e^(i90°)sin(45°)|1⟩"
+    },
+
+    {
+        theta: 60,
+        phi: 0,
+        equation: "|ψ⟩ = cos(30°)|0⟩ + sin(30°)|1⟩"
+    },
+
+    {
+        theta: 120,
+        phi: 180,
+        equation: "|ψ⟩ = cos(60°)|0⟩ + e^(i180°)sin(60°)|1⟩"
+    }
+];
+
+let currentProblem = 0;
+
+function loadIntroProblem() {
+
+    const problem = introProblems[currentProblem];
+
+    document.getElementById("givenEquation").textContent =
+        problem.equation;
+
+}
+
+loadIntroProblem();
+
+const checkAnswerButton = document.getElementById("checkAnswer");
+
+// Create feedback without changing existing HTML
+const introFeedback = document.createElement("div");
+introFeedback.id = "introFeedback";
+introFeedback.style.marginTop = "18px";
+introFeedback.style.fontWeight = "600";
+
+if (checkAnswerButton) {
+    checkAnswerButton.insertAdjacentElement("afterend", introFeedback);
+}
+
+
+// ----------------------------------------
+// READ THE USER'S EXISTING ANSWER FIELDS
+// ----------------------------------------
+
+function getIntroInputs() {
+
+    // These look for number inputs already on the page.
+    // We are NOT creating sliders.
+    const inputs = document.querySelectorAll(
+        '.problem-panel input[type="number"], .problem-panel input:not([type])'
+    );
+
+    return Array.from(inputs);
+}
+
+
+// ----------------------------------------
+// CHECK FINAL ANSWER
+// ----------------------------------------
+
+function checkIntroAnswer() {
+
+    const problem = introProblems[currentProblem];
+    const inputs = getIntroInputs();
+
+    if (inputs.length === 0) {
+        introFeedback.textContent =
+            "Enter your answer in the work area first.";
+        return;
+    }
+
+    // Final input is treated as the student's final φ answer
+    const finalInput = inputs[inputs.length - 1];
+
+    const studentPhi = Number(finalInput.value);
+
+    if (finalInput.value.trim() === "" || Number.isNaN(studentPhi)) {
+        introFeedback.textContent =
+            "Enter a numerical answer for φ.";
+        return;
+    }
+
+    // Normalize angles so 360° = 0°, 405° = 45°, etc.
+    const normalizeAngle = angle =>
+        ((angle % 360) + 360) % 360;
+
+    const studentNormalized = normalizeAngle(studentPhi);
+    const correctNormalized = normalizeAngle(problem.phi);
+
+    const tolerance = 0.5;
+
+    if (
+        Math.abs(studentNormalized - correctNormalized) <= tolerance ||
+        Math.abs(
+            Math.abs(studentNormalized - correctNormalized) - 360
+        ) <= tolerance
+    ) {
+
+        introFeedback.textContent = "Correct ✓";
+
+        // Point the Bloch vector to the correct state
+        currentTheta = problem.theta;
+        currentPhi = problem.phi;
+
+        stateVector.setDirection(
+            getBlochDirection(
+                problem.theta,
+                problem.phi
+            )
+        );
+
+        // Wait briefly, then load another problem
+        setTimeout(() => {
+
+            currentProblem++;
+
+            if (currentProblem >= introProblems.length) {
+                currentProblem = 0;
+            }
+
+            loadIntroProblem();
+
+            // Clear the student's previous work
+            getIntroInputs().forEach(input => {
+                input.value = "";
+            });
+
+            introFeedback.textContent = "";
+
+        }, 1500);
+
+    } else {
+
+        introFeedback.textContent =
+            "Not quite — check your calculation and try again.";
+    }
+}
+
+
+// ----------------------------------------
+// CONNECT EXISTING CHECK ANSWER BUTTON
+// ----------------------------------------
+
+if (checkAnswerButton) {
+
+    checkAnswerButton.addEventListener(
+        "click",
+        checkIntroAnswer
+    );
+
+}
+
+const extraIntroProblems = [
+
+    // ----- NORTH POLE -----
+    {
+        theta: 0,
+        phi: 0,
+        equation: "|ψ⟩ = |0⟩"
+    },
+
+    // ----- SOUTH POLE -----
+    {
+        theta: 180,
+        phi: 0,
+        equation: "|ψ⟩ = |1⟩"
+    },
+
+    // ----- EQUATOR -----
+    {
+        theta: 90,
+        phi: 0,
+        equation:
+            "|ψ⟩ = cos(45°)|0⟩ + sin(45°)|1⟩"
+    },
+
+    {
+        theta: 90,
+        phi: 45,
+        equation:
+            "|ψ⟩ = cos(45°)|0⟩ + e^(i45°)sin(45°)|1⟩"
+    },
+
+    {
+        theta: 90,
+        phi: 90,
+        equation:
+            "|ψ⟩ = cos(45°)|0⟩ + e^(i90°)sin(45°)|1⟩"
+    },
+
+    {
+        theta: 90,
+        phi: 135,
+        equation:
+            "|ψ⟩ = cos(45°)|0⟩ + e^(i135°)sin(45°)|1⟩"
+    },
+
+    {
+        theta: 90,
+        phi: 180,
+        equation:
+            "|ψ⟩ = cos(45°)|0⟩ + e^(i180°)sin(45°)|1⟩"
+    },
+
+    {
+        theta: 90,
+        phi: 225,
+        equation:
+            "|ψ⟩ = cos(45°)|0⟩ + e^(i225°)sin(45°)|1⟩"
+    },
+
+    {
+        theta: 90,
+        phi: 270,
+        equation:
+            "|ψ⟩ = cos(45°)|0⟩ + e^(i270°)sin(45°)|1⟩"
+    },
+
+    {
+        theta: 90,
+        phi: 315,
+        equation:
+            "|ψ⟩ = cos(45°)|0⟩ + e^(i315°)sin(45°)|1⟩"
+    },
+
+
+    // ----- UPPER HEMISPHERE -----
+
+    {
+        theta: 30,
+        phi: 0,
+        equation:
+            "|ψ⟩ = cos(15°)|0⟩ + sin(15°)|1⟩"
+    },
+
+    {
+        theta: 60,
+        phi: 45,
+        equation:
+            "|ψ⟩ = cos(30°)|0⟩ + e^(i45°)sin(30°)|1⟩"
+    },
+
+    {
+        theta: 60,
+        phi: 90,
+        equation:
+            "|ψ⟩ = cos(30°)|0⟩ + e^(i90°)sin(30°)|1⟩"
+    },
+
+    {
+        theta: 45,
+        phi: 180,
+        equation:
+            "|ψ⟩ = cos(22.5°)|0⟩ + e^(i180°)sin(22.5°)|1⟩"
+    },
+
+
+    // ----- LOWER HEMISPHERE -----
+
+    {
+        theta: 120,
+        phi: 0,
+        equation:
+            "|ψ⟩ = cos(60°)|0⟩ + sin(60°)|1⟩"
+    },
+
+    {
+        theta: 120,
+        phi: 90,
+        equation:
+            "|ψ⟩ = cos(60°)|0⟩ + e^(i90°)sin(60°)|1⟩"
+    },
+
+    {
+        theta: 135,
+        phi: 135,
+        equation:
+            "|ψ⟩ = cos(67.5°)|0⟩ + e^(i135°)sin(67.5°)|1⟩"
+    },
+
+    {
+        theta: 150,
+        phi: 180,
+        equation:
+            "|ψ⟩ = cos(75°)|0⟩ + e^(i180°)sin(75°)|1⟩"
+    },
+
+    {
+        theta: 150,
+        phi: 270,
+        equation:
+            "|ψ⟩ = cos(75°)|0⟩ + e^(i270°)sin(75°)|1⟩"
+    },
+
+    {
+        theta: 120,
+        phi: 315,
+        equation:
+            "|ψ⟩ = cos(60°)|0⟩ + e^(i315°)sin(60°)|1⟩"
+    }
+
+];
+
+
+// Add these problems onto the bank you already created
+introProblems.push(...extraIntroProblems);
+
+
+// ========================================
+// RANDOM PROBLEM SELECTION
+// ========================================
+
+let previousIntroProblem = -1;
+
+function chooseRandomIntroProblem() {
+
+    if (introProblems.length <= 1) {
+        currentProblem = 0;
+        return;
+    }
+
+    let nextProblem;
+
+    do {
+
+        nextProblem = Math.floor(
+            Math.random() * introProblems.length
+        );
+
+    } while (nextProblem === previousIntroProblem);
+
+
+    previousIntroProblem = nextProblem;
+    currentProblem = nextProblem;
+
+    loadIntroProblem();
+
+}
+
+
+// ========================================
+// RESET WORK WHEN A NEW PROBLEM LOADS
+// ========================================
+
+function prepareNewIntroProblem() {
+
+    clearIntroWork();
+
+    introFeedback.textContent = "";
+
+    chooseRandomIntroProblem();
+
+}
+
+function completeIntroProblem() {
+
+    const problem = introProblems[currentProblem];
+
+    // Show the correct state on the Bloch sphere
+    stateVector.setDirection(
+        getBlochDirection(
+            problem.theta,
+            problem.phi
+        )
+    );
+
+    introFeedback.textContent =
+        "Correct ✓  State matched on the Bloch sphere.";
+
+    // Give the learner time to see the result
+    setTimeout(() => {
+
+        // Clear the three work boxes
+        clearIntroWork();
+
+        // Pick a different randomized problem
+        chooseRandomIntroProblem();
+
+        introFeedback.textContent =
+            "New problem loaded.";
+
+        // Remove message shortly afterward
+        setTimeout(() => {
+            introFeedback.textContent = "";
+        }, 1200);
+
+    }, 1800);
+}
+
+checkAnswerButton.addEventListener("click", () => {
+
+    const allStepsCorrect =
+        validateIntroSteps();
+
+    if (allStepsCorrect) {
+        completeIntroProblem();
+    }
+
+});
+
+let blochAnimation = null;
+
+function animateBlochTo(thetaDegrees, phiDegrees, duration = 900) {
+
+    if (blochAnimation) {
+        cancelAnimationFrame(blochAnimation);
+    }
+
+    const targetTheta =
+        THREE.MathUtils.degToRad(thetaDegrees);
+
+    const targetPhi =
+        THREE.MathUtils.degToRad(phiDegrees);
+
+
+    // Final direction
+    const targetDirection = new THREE.Vector3(
+
+        Math.sin(targetTheta) * Math.cos(targetPhi),
+
+        Math.sin(targetTheta) * Math.sin(targetPhi),
+
+        Math.cos(targetTheta)
+
+    ).normalize();
+
+
+    // Current arrow direction
+    const startDirection =
+        stateVector.getWorldDirection(
+            new THREE.Vector3()
+        ).normalize();
+
+
+    const startTime = performance.now();
+
+
+    function glide(currentTime) {
+
+        const elapsed =
+            currentTime - startTime;
+
+        let progress =
+            Math.min(elapsed / duration, 1);
+
+
+        // Smooth ease-in/ease-out
+        progress =
+            progress * progress * (3 - 2 * progress);
+
+
+        const direction =
+            startDirection
+                .clone()
+                .lerp(targetDirection, progress)
+                .normalize();
+
+
+        stateVector.setDirection(direction);
+
+
+        if (progress < 1) {
+
+            blochAnimation =
+                requestAnimationFrame(glide);
+
+        } else {
+
+            stateVector.setDirection(
+                targetDirection
+            );
+
+            blochAnimation = null;
+        }
+    }
+
+
+    blochAnimation =
+        requestAnimationFrame(glide);
+}
+
+
+// ========================================
+// BLOCH PROBABILITIES
+// ========================================
+
+function calculateBlochProbabilities(thetaDegrees) {
+
+    const theta =
+        THREE.MathUtils.degToRad(thetaDegrees);
+
+    const probability0 =
+        Math.pow(
+            Math.cos(theta / 2),
+            2
+        );
+
+    const probability1 =
+        Math.pow(
+            Math.sin(theta / 2),
+            2
+        );
+
+
+    return {
+
+        p0: probability0,
+
+        p1: probability1,
+
+        p0Percent:
+            (probability0 * 100).toFixed(1),
+
+        p1Percent:
+            (probability1 * 100).toFixed(1)
+
+    };
+}
+
+function validateIntroSteps() {
+
+    const problem = introProblems[currentProblem];
+
+    // Existing three work boxes
+    const existingInputs =
+        document.querySelectorAll(".work-box");
+
+    if (existingInputs.length < 3) {
+        console.error("Could not find the three work boxes.");
+        return false;
+    }
+
+    const thetaHalf =
+        Number(existingInputs[0].value);
+
+    const theta =
+        Number(existingInputs[1].value);
+
+    const phi =
+        Number(existingInputs[2].value);
+
+
+    // New probability boxes
+    const p0Input =
+        document.getElementById("probability0");
+
+    const p1Input =
+        document.getElementById("probability1");
+
+
+    // Correct probability values
+    const probabilities =
+        calculateBlochProbabilities(problem.theta);
+
+    const correctP0 =
+        Number(probabilities.p0Percent);
+
+    const correctP1 =
+        Number(probabilities.p1Percent);
+
+
+    const tolerance = 0.5;
+
+
+    // θ/2
+    if (
+        Math.abs(thetaHalf - problem.theta / 2)
+        > tolerance
+    ) {
+        introFeedback.textContent =
+            "Check θ/2.";
+        return false;
+    }
+
+
+    // θ
+    if (
+        Math.abs(theta - problem.theta)
+        > tolerance
+    ) {
+        introFeedback.textContent =
+            "θ/2 is correct — check θ.";
+        return false;
+    }
+
+
+    // φ
+    const phiDifference =
+        Math.abs(
+            ((phi - problem.phi + 180) % 360 + 360) % 360 - 180
+        );
+
+    if (phiDifference > tolerance) {
+
+        introFeedback.textContent =
+            "θ is correct — check φ.";
+
+        return false;
+    }
+
+
+    // Probability boxes are optional until present
+    if (p0Input && p1Input) {
+
+        const studentP0 =
+            Number(p0Input.value);
+
+        const studentP1 =
+            Number(p1Input.value);
+
+
+        if (
+            Math.abs(studentP0 - correctP0)
+            > tolerance
+        ) {
+            introFeedback.textContent =
+                "Angles are correct — check P(0).";
+            return false;
+        }
+
+
+        if (
+            Math.abs(studentP1 - correctP1)
+            > tolerance
+        ) {
+            introFeedback.textContent =
+                "P(0) is correct — check P(1).";
+            return false;
+        }
+    }
+
+
+    return true;
+}
+
+function playIntroSuccessAnimation() {
+
+    const panel =
+        document.querySelector(".problem-panel");
+
+    const button =
+        document.getElementById("checkAnswer");
+
+    // Success message
+    introFeedback.textContent =
+        "✓ STATE SOLVED";
+
+    introFeedback.style.fontSize = "20px";
+    introFeedback.style.fontWeight = "800";
+    introFeedback.style.transform = "scale(0.7)";
+    introFeedback.style.opacity = "0";
+
+    // Animate message in
+    introFeedback.animate(
+        [
+            {
+                transform: "scale(0.7)",
+                opacity: 0
+            },
+
+            {
+                transform: "scale(1.15)",
+                opacity: 1
+            },
+
+            {
+                transform: "scale(1)",
+                opacity: 1
+            }
+        ],
+        {
+            duration: 550,
+            easing: "ease-out",
+            fill: "forwards"
+        }
+    );
+
+
+    // Pulse the Check Answer button
+    if (button) {
+
+        button.animate(
+            [
+                { transform: "scale(1)" },
+                { transform: "scale(1.08)" },
+                { transform: "scale(1)" }
+            ],
+            {
+                duration: 450,
+                easing: "ease-out"
+            }
+        );
+
+    }
+
+
+    // Small success pulse on the problem panel
+    if (panel) {
+
+        panel.animate(
+            [
+                { transform: "scale(1)" },
+                { transform: "scale(1.012)" },
+                { transform: "scale(1)" }
+            ],
+            {
+                duration: 600,
+                easing: "ease-out"
+            }
+        );
+
+    }
+}
+
+function showSolvedBlochState() {
+
+    const problem =
+        introProblems[currentProblem];
+
+    // Smoothly glide to the solved state
+    animateBlochTo(
+        problem.theta,
+        problem.phi,
+        1000
+    );
+
+    // Run success animation
+    playIntroSuccessAnimation();
+}
+
+checkAnswerButton.addEventListener("click", () => {
+
+    const solved =
+        validateIntroSteps();
+
+    if (!solved) {
+        return;
+    }
+
+    // All required answers are correct
+    showSolvedBlochState();
+
+});
+
+/*
+
+const oldCheckButton = document.getElementById("checkAnswer");
+const terrakoCheckButton = oldCheckButton.cloneNode(true);
+
+ oldCheckButton.cloneNode(true);
+
+oldCheckButton.replaceWith(terrakoCheckButton);
+
+
+// Give the new clean button ONE controller
+terrakoCheckButton.addEventListener("click", () => {
+
+    const solved =
+        validateIntroSteps();
+
+    // If even ONE required answer is wrong,
+    // absolutely nothing advances.
+    if (!solved) {
+        return;
+    }
+
+    // Everything is correct.
+    showSolvedBlochState();
+
+});
+
+const masterOldButton =
+    document.getElementById("checkAnswer");
+
+// Make a completely clean copy.
+// Old click listeners stay behind on the old button.
+const masterCheckButton =
+    masterOldButton.cloneNode(true);
+
+// Put clean button into page
+masterOldButton.replaceWith(masterCheckButton);
+
+
+// ========================================
+// STRICT VALIDATION
+// ========================================
+
+function masterValidateIntroProblem() {
+
+    const problem =
+        introProblems[currentProblem];
+
+    const thetaHalfInput =
+        document.getElementById("step1");
+
+    const thetaInput =
+        document.getElementById("step2");
+
+    const phiInput =
+        document.getElementById("step3");
+
+    const p0Input =
+        document.getElementById("probability0");
+
+    const p1Input =
+        document.getElementById("probability1");
+
+
+    // NOTHING BLANK IS ALLOWED
+
+    if (thetaHalfInput.value.trim() === "") {
+        introFeedback.textContent = "Complete θ/2 first.";
+        return false;
+    }
+
+    if (thetaInput.value.trim() === "") {
+        introFeedback.textContent = "Complete θ.";
+        return false;
+    }
+
+    if (phiInput.value.trim() === "") {
+        introFeedback.textContent = "Complete φ.";
+        return false;
+    }
+
+    if (p0Input.value.trim() === "") {
+        introFeedback.textContent = "Complete P(0).";
+        return false;
+    }
+
+    if (p1Input.value.trim() === "") {
+        introFeedback.textContent = "Complete P(1).";
+        return false;
+    }
+
+
+    const thetaHalf =
+        Number(thetaHalfInput.value);
+
+    const theta =
+        Number(thetaInput.value);
+
+    const phi =
+        Number(phiInput.value);
+
+    const p0 =
+        Number(p0Input.value);
+
+    const p1 =
+        Number(p1Input.value);
+
+
+    const correctProbabilities =
+        calculateBlochProbabilities(problem.theta);
+
+    const correctP0 =
+        Number(correctProbabilities.p0Percent);
+
+    const correctP1 =
+        Number(correctProbabilities.p1Percent);
+
+    const tolerance = 0.5;
+
+
+    // θ/2
+    if (
+        Math.abs(
+            thetaHalf - problem.theta / 2
+        ) > tolerance
+    ) {
+        introFeedback.textContent =
+            "Check θ/2.";
+        return false;
+    }
+
+
+    // θ
+    if (
+        Math.abs(
+            theta - problem.theta
+        ) > tolerance
+    ) {
+        introFeedback.textContent =
+            "θ/2 is correct — check θ.";
+        return false;
+    }
+
+
+    // φ
+    const phiDifference =
+        Math.abs(
+            ((phi - problem.phi + 180) % 360 + 360) % 360 - 180
+        );
+
+    if (phiDifference > tolerance) {
+        introFeedback.textContent =
+            "θ is correct — check φ.";
+        return false;
+    }
+
+
+    // P(0)
+    if (
+        Math.abs(p0 - correctP0)
+        > tolerance
+    ) {
+        introFeedback.textContent =
+            "Angles are correct — check P(0).";
+        return false;
+    }
+
+
+    // P(1)
+    if (
+        Math.abs(p1 - correctP1)
+        > tolerance
+    ) {
+        introFeedback.textContent =
+            "P(0) is correct — check P(1).";
+        return false;
+    }
+
+
+    return true;
+}
+
+
+// ========================================
+// ONLY ACTIVE CHECK BUTTON
+// ========================================
+
+masterCheckButton.addEventListener(
+    "click",
+    () => {
+
+        const solved =
+            masterValidateIntroProblem();
+
+        if (!solved) {
+            return;
+        }
+
+        showSolvedBlochState();
+
+    }
+);
+*/
+
+document.addEventListener("click", function(event) {
+
+    const button = event.target.closest("#checkAnswer");
+
+    if (!button) {
+        return;
+    }
+
+    // STOP the click before ANY old button
+    // listener gets a chance to run.
+    event.preventDefault();
+    event.stopPropagation();
+    event.stopImmediatePropagation();
+
+
+    const problem =
+        introProblems[currentProblem];
+
+
+    const thetaHalfBox =
+        document.getElementById("step1");
+
+    const thetaBox =
+        document.getElementById("step2");
+
+    const phiBox =
+        document.getElementById("step3");
+
+    const p0Box =
+        document.getElementById("probability0");
+
+    const p1Box =
+        document.getElementById("probability1");
+
+
+    // -------------------------------
+    // REQUIRE EVERY BOX
+    // -------------------------------
+
+    if (thetaHalfBox.value.trim() === "") {
+        introFeedback.textContent =
+            "Complete θ/2 first.";
+        return;
+    }
+
+    if (thetaBox.value.trim() === "") {
+        introFeedback.textContent =
+            "Complete θ.";
+        return;
+    }
+
+    if (phiBox.value.trim() === "") {
+        introFeedback.textContent =
+            "Complete φ.";
+        return;
+    }
+
+    if (p0Box.value.trim() === "") {
+        introFeedback.textContent =
+            "Complete P(0).";
+        return;
+    }
+
+    if (p1Box.value.trim() === "") {
+        introFeedback.textContent =
+            "Complete P(1).";
+        return;
+    }
+
+
+    // -------------------------------
+    // READ ANSWERS
+    // -------------------------------
+
+    const thetaHalf =
+        Number(thetaHalfBox.value);
+
+    const theta =
+        Number(thetaBox.value);
+
+    const phi =
+        Number(phiBox.value);
+
+    const p0 =
+        Number(p0Box.value);
+
+    const p1 =
+        Number(p1Box.value);
+
+
+    const tolerance = 0.5;
+
+    const probabilities =
+        calculateBlochProbabilities(
+            problem.theta
+        );
+
+    const correctP0 =
+        Number(probabilities.p0Percent);
+
+    const correctP1 =
+        Number(probabilities.p1Percent);
+
+
+    // -------------------------------
+    // CHECK θ/2
+    // -------------------------------
+
+    if (
+        Math.abs(
+            thetaHalf -
+            problem.theta / 2
+        ) > tolerance
+    ) {
+
+        introFeedback.textContent =
+            "Check θ/2.";
+
+        return;
+    }
+
+
+    // -------------------------------
+    // CHECK θ
+    // -------------------------------
+
+    if (
+        Math.abs(
+            theta -
+            problem.theta
+        ) > tolerance
+    ) {
+
+        introFeedback.textContent =
+            "θ/2 is correct — check θ.";
+
+        return;
+    }
+
+
+    // -------------------------------
+    // CHECK φ
+    // -------------------------------
+
+    const phiDifference =
+        Math.abs(
+            ((phi - problem.phi + 180) % 360 + 360) % 360 - 180
+        );
+
+    if (phiDifference > tolerance) {
+
+        introFeedback.textContent =
+            "θ is correct — check φ.";
+
+        return;
+    }
+
+
+    // -------------------------------
+    // CHECK P(0)
+    // -------------------------------
+
+    if (
+        Math.abs(
+            p0 - correctP0
+        ) > tolerance
+    ) {
+
+        introFeedback.textContent =
+            "Angles correct — check P(0).";
+
+        return;
+    }
+
+
+    // -------------------------------
+    // CHECK P(1)
+    // -------------------------------
+
+    if (
+        Math.abs(
+            p1 - correctP1
+        ) > tolerance
+    ) {
+
+        introFeedback.textContent =
+            "P(0) correct — check P(1).";
+
+        return;
+    }
+
+
+    // -------------------------------
+    // EVERYTHING IS CORRECT
+    // -------------------------------
+
+    showSolvedBlochState();
+
+
+}, true);
+
+const phiVisualGroup = new THREE.Group();
+scene.add(phiVisualGroup);
+
+
+// -----------------------------------------------------
+// PHI ARC
+// -----------------------------------------------------
+
+const phiArcMaterial =
+    new THREE.LineBasicMaterial({
+        color: 0x66ccff,
+        transparent: true,
+        opacity: 0.95
+    });
+
+let phiArc =
+    new THREE.Line(
+        new THREE.BufferGeometry(),
+        phiArcMaterial
+    );
+
+phiVisualGroup.add(phiArc);
+
+
+// -----------------------------------------------------
+// PHI REFERENCE LINE
+// Shows where φ = 0° begins
+// -----------------------------------------------------
+
+const phiReferenceGeometry =
+    new THREE.BufferGeometry().setFromPoints([
+        new THREE.Vector3(0, 0, 0),
+        new THREE.Vector3(0.55, 0, 0)
+    ]);
+
+const phiReferenceMaterial =
+    new THREE.LineBasicMaterial({
+        color: 0x3f6f99,
+        transparent: true,
+        opacity: 0.75
+    });
+
+const phiReferenceLine =
+    new THREE.Line(
+        phiReferenceGeometry,
+        phiReferenceMaterial
+    );
+
+phiVisualGroup.add(phiReferenceLine);
+
+
+// -----------------------------------------------------
+// PHI MOVING RADIAL LINE
+// -----------------------------------------------------
+
+const phiRadiusMaterial =
+    new THREE.LineBasicMaterial({
+        color: 0x66ccff,
+        transparent: true,
+        opacity: 0.8
+    });
+
+let phiRadiusLine =
+    new THREE.Line(
+        new THREE.BufferGeometry(),
+        phiRadiusMaterial
+    );
+
+phiVisualGroup.add(phiRadiusLine);
+
+
+// -----------------------------------------------------
+// CREATE FLOATING φ LABEL
+// -----------------------------------------------------
+
+const phiCanvas =
+    document.createElement("canvas");
+
+phiCanvas.width = 512;
+phiCanvas.height = 128;
+
+const phiContext =
+    phiCanvas.getContext("2d");
+
+const phiTexture =
+    new THREE.CanvasTexture(phiCanvas);
+
+phiTexture.minFilter =
+    THREE.LinearFilter;
+
+const phiSpriteMaterial =
+    new THREE.SpriteMaterial({
+        map: phiTexture,
+        transparent: true,
+        depthTest: false
+    });
+
+const phiLabel =
+    new THREE.Sprite(phiSpriteMaterial);
+
+phiLabel.scale.set(
+    0.72,
+    0.18,
+    1
+);
+
+phiLabel.renderOrder = 1000;
+
+phiVisualGroup.add(phiLabel);
+
+
+// -----------------------------------------------------
+// UPDATE THE φ GRAPHIC
+// -----------------------------------------------------
+
+function updatePhiVisualFromDirection(direction) {
+
+    // Calculate φ from the x/y direction
+    let phi =
+        Math.atan2(
+            direction.y,
+            direction.x
+        );
+
+    if (phi < 0) {
+        phi += Math.PI * 2;
+    }
+
+
+    const phiDegrees =
+        THREE.MathUtils.radToDeg(phi);
+
+
+    // ---------------------------------------------
+    // BUILD ARC
+    // ---------------------------------------------
+
+    const radius = 0.42;
+
+    const arcPoints = [];
+
+    const segments =
+        Math.max(
+            2,
+            Math.ceil(phiDegrees / 4)
+        );
+
+
+    for (
+        let i = 0;
+        i <= segments;
+        i++
+    ) {
+
+        const angle =
+            phi * (i / segments);
+
+        arcPoints.push(
+            new THREE.Vector3(
+                radius * Math.cos(angle),
+                radius * Math.sin(angle),
+                0
+            )
+        );
+    }
+
+
+    phiArc.geometry.dispose();
+
+    phiArc.geometry =
+        new THREE.BufferGeometry()
+            .setFromPoints(arcPoints);
+
+
+    // ---------------------------------------------
+    // MOVING φ RADIUS
+    // ---------------------------------------------
+
+    const radiusEnd =
+        new THREE.Vector3(
+            0.55 * Math.cos(phi),
+            0.55 * Math.sin(phi),
+            0
+        );
+
+
+    phiRadiusLine.geometry.dispose();
+
+    phiRadiusLine.geometry =
+        new THREE.BufferGeometry()
+            .setFromPoints([
+                new THREE.Vector3(0, 0, 0),
+                radiusEnd
+            ]);
+
+
+    // ---------------------------------------------
+    // LABEL POSITION
+    // ---------------------------------------------
+
+    const labelAngle =
+        phi === 0
+            ? 0
+            : phi / 2;
+
+
+    phiLabel.position.set(
+        0.68 * Math.cos(labelAngle),
+        0.68 * Math.sin(labelAngle),
+        0.04
+    );
+
+
+    // ---------------------------------------------
+    // DRAW LABEL
+    // ---------------------------------------------
+
+    phiContext.clearRect(
+        0,
+        0,
+        phiCanvas.width,
+        phiCanvas.height
+    );
+
+
+    phiContext.font =
+        "bold 54px Arial";
+
+    phiContext.textAlign =
+        "center";
+
+    phiContext.textBaseline =
+        "middle";
+
+
+    // Glow
+    phiContext.shadowColor =
+        "#38bdf8";
+
+    phiContext.shadowBlur =
+        18;
+
+    phiContext.fillStyle =
+        "#8fddff";
+
+
+    phiContext.fillText(
+        `φ = ${phiDegrees.toFixed(0)}°`,
+        phiCanvas.width / 2,
+        phiCanvas.height / 2
+    );
+
+
+    phiTexture.needsUpdate = true;
+}
+
+
+// -----------------------------------------------------
+// CONNECT φ VISUAL TO THE EXISTING STATE VECTOR
+// -----------------------------------------------------
+
+const originalSetDirection =
+    stateVector.setDirection.bind(stateVector);
+
+
+stateVector.setDirection =
+    function(direction) {
+
+        originalSetDirection(direction);
+
+        updatePhiVisualFromDirection(
+            direction.clone().normalize()
+        );
+    };
+
+
+// -----------------------------------------------------
+// DISPLAY φ IMMEDIATELY
+// -----------------------------------------------------
+
+updatePhiVisualFromDirection(
+    getBlochDirection(
+        currentTheta,
+        currentPhi
+    ).normalize()
+);
+
+let homeworkMode = "introductory";
+
+let advancedProblemIndex = 0;
+
+
+// -----------------------------------------------------
+// ADVANCED TARGET STATES
+// -----------------------------------------------------
+
+const advancedProblems = [
+
+    {
+        theta: 90,
+        phi: 45
+    },
+
+    {
+        theta: 60,
+        phi: 90
+    },
+
+    {
+        theta: 120,
+        phi: 180
+    },
+
+    {
+        theta: 45,
+        phi: 135
+    },
+
+    {
+        theta: 135,
+        phi: 270
+    },
+
+    {
+        theta: 75,
+        phi: 315
+    },
+
+    {
+        theta: 150,
+        phi: 45
+    },
+
+    {
+        theta: 30,
+        phi: 225
+    }
+
+];
+
+
+// -----------------------------------------------------
+// GET EXISTING ADVANCED BUTTON
+// -----------------------------------------------------
+
+const advancedButton =
+    document.getElementById("advancedMode");
+
+
+// -----------------------------------------------------
+// LOAD ADVANCED TARGET
+// -----------------------------------------------------
+
+function loadAdvancedProblem() {
+
+    homeworkMode = "advanced";
+
+    const problem =
+        advancedProblems[advancedProblemIndex];
+
+
+    // ---------------------------------------------
+    // CHANGE PAGE TEXT
+    // ---------------------------------------------
+
+    document.getElementById(
+        "problemTitle"
+    ).textContent =
+        "Advanced Bloch Reconstruction";
+
+
+    document.getElementById(
+        "problemInstructions"
+    ).textContent =
+        "Analyze the target vector and reconstruct its quantum state.";
+
+
+    document.getElementById(
+        "givenEquation"
+    ).innerHTML =
+        `
+        TARGET STATE<br>
+        <span style="
+            font-size:14px;
+            opacity:0.65;
+            letter-spacing:1px;
+        ">
+            RECONSTRUCT |ψ⟩ FROM THE BLOCH VECTOR
+        </span>
+        `;
+
+
+    // ---------------------------------------------
+    // LOCK BLOCH SPHERE
+    // ---------------------------------------------
+
+    controls.enabled = false;
+
+
+    // ---------------------------------------------
+    // CLEAR PREVIOUS WORK
+    // ---------------------------------------------
+
+    const step1 =
+        document.getElementById("step1");
+
+    const step2 =
+        document.getElementById("step2");
+
+    const step3 =
+        document.getElementById("step3");
+
+    const p0 =
+        document.getElementById("probability0");
+
+    const p1 =
+        document.getElementById("probability1");
+
+
+    step1.value = "";
+    step2.value = "";
+    step3.value = "";
+    p0.value = "";
+    p1.value = "";
+
+
+    // ---------------------------------------------
+    // CHANGE BOX PURPOSES FOR ADVANCED MODE
+    // ---------------------------------------------
+
+    step1.placeholder =
+        "θ";
+
+    step2.placeholder =
+        "φ";
+
+    step3.placeholder =
+        "θ / 2";
+
+    p0.placeholder =
+        "P(0)";
+
+    p1.placeholder =
+        "P(1)";
+
+
+    // ---------------------------------------------
+    // MOVE SPHERE TO TARGET
+    // ---------------------------------------------
+
+    animateBlochTo(
+        problem.theta,
+        problem.phi,
+        1400
+    );
+
+
+    // ---------------------------------------------
+    // FEEDBACK
+    // ---------------------------------------------
+
+    introFeedback.textContent =
+        "TARGET ACQUIRED";
+
+    introFeedback.animate(
+        [
+            {
+                opacity: 0,
+                transform: "translateY(5px)"
+            },
+
+            {
+                opacity: 1,
+                transform: "translateY(0)"
+            }
+        ],
+        {
+            duration: 500,
+            easing: "ease-out",
+            fill: "forwards"
+        }
+    );
+
+
+    setTimeout(() => {
+
+        if (homeworkMode === "advanced") {
+
+            introFeedback.textContent =
+                "Reconstruct the state.";
+
+        }
+
+    }, 900);
+}
+
+
+// -----------------------------------------------------
+// RANDOM ADVANCED TARGET
+// -----------------------------------------------------
+
+function chooseAdvancedProblem() {
+
+    let nextProblem;
+
+    do {
+
+        nextProblem =
+            Math.floor(
+                Math.random() *
+                advancedProblems.length
+            );
+
+    }
+    while (
+        nextProblem === advancedProblemIndex &&
+        advancedProblems.length > 1
+    );
+
+
+    advancedProblemIndex =
+        nextProblem;
+
+
+    loadAdvancedProblem();
+}
+
+
+// -----------------------------------------------------
+// ACTIVATE ADVANCED MODE
+// -----------------------------------------------------
+
+advancedButton.addEventListener(
+    "click",
+    () => {
+
+        homeworkMode =
+            "advanced";
+
+
+        advancedButton.classList.add(
+            "active"
+        );
+
+
+        const introButton =
+            document.getElementById(
+                "introMode"
+            );
+
+
+        if (introButton) {
+
+            introButton.classList.remove(
+                "active"
+            );
+
+        }
+
+
+        chooseAdvancedProblem();
+
+    }
+);
+
+const introModeButton =
+    document.getElementById("introMode");
+
+
+// -----------------------------------------------------
+// ADVANCED MODE
+// Keep φ geometry, hide numerical answer
+// -----------------------------------------------------
+
+advancedButton.addEventListener("click", () => {
+
+    // Hide the numerical φ label
+    phiLabel.visible = false;
+
+    // Keep the arc/reference geometry visible
+    phiArc.visible = true;
+    phiRadiusLine.visible = true;
+    phiReferenceLine.visible = true;
+
+});
+
+
+// -----------------------------------------------------
+// INTRODUCTORY MODE
+// Restore φ learning aid
+// -----------------------------------------------------
+
+if (introModeButton) {
+
+    introModeButton.addEventListener("click", () => {
+
+        // Show φ number again
+        phiLabel.visible = true;
+
+        phiArc.visible = true;
+        phiRadiusLine.visible = true;
+        phiReferenceLine.visible = true;
+
+    });
+
+}
+
+const terrakoAdvancedScenarios = [
+
+    {
+        title: "QUANTUM NAVIGATION SENSOR",
+
+        text:
+            "A spacecraft quantum navigation sensor prepares a qubit. " +
+            "State tomography reports the following normalized Bloch-vector coordinates:"
+    },
+
+    {
+        title: "QUANTUM CONTROL PULSE",
+
+        text:
+            "A control pulse rotates a qubit into an unknown state. " +
+            "The laboratory measurement system reconstructs the following Bloch-vector coordinates:"
+    },
+
+    {
+        title: "SATELLITE QUANTUM REGISTER",
+
+        text:
+            "A satellite quantum register contains an unknown qubit state. " +
+            "Its reconstructed Bloch vector has the following coordinates:"
+    },
+
+    {
+        title: "STATE TOMOGRAPHY TEST",
+
+        text:
+            "A quantum-state tomography experiment measures an unknown qubit. " +
+            "The resulting normalized state vector is:"
+    },
+
+    {
+        title: "QUANTUM ORIENTATION SYSTEM",
+
+        text:
+            "A quantum orientation system returns the following normalized Bloch-vector direction:"
+    }
+
+];
+
+
+// -----------------------------------------------------
+// CONVERT θ AND φ INTO BLOCH COORDINATES
+//
+// x = sinθ cosφ
+// y = sinθ sinφ
+// z = cosθ
+// -----------------------------------------------------
+
+function terrakoGetBlochCoordinates(
+    thetaDegrees,
+    phiDegrees
+) {
+
+    const theta =
+        THREE.MathUtils.degToRad(
+            thetaDegrees
+        );
+
+    const phi =
+        THREE.MathUtils.degToRad(
+            phiDegrees
+        );
+
+
+    return {
+
+        x:
+            Math.sin(theta) *
+            Math.cos(phi),
+
+        y:
+            Math.sin(theta) *
+            Math.sin(phi),
+
+        z:
+            Math.cos(theta)
+
+    };
+
+}
+
+
+// -----------------------------------------------------
+// CREATE THE WORD PROBLEM
+// -----------------------------------------------------
+
+function terrakoShowAdvancedWordProblem() {
+
+    // Do nothing unless Advanced is active.
+    if (homeworkMode !== "advanced") {
+        return;
+    }
+
+
+    const problem =
+        advancedProblems[
+            advancedProblemIndex
+        ];
+
+
+    if (!problem) {
+        return;
+    }
+
+
+    // Calculate coordinates from the hidden answer.
+    const coordinates =
+        terrakoGetBlochCoordinates(
+            problem.theta,
+            problem.phi
+        );
+
+
+    // Random scenario.
+    const scenario =
+        terrakoAdvancedScenarios[
+            Math.floor(
+                Math.random() *
+                terrakoAdvancedScenarios.length
+            )
+        ];
+
+
+    // -------------------------------------------------
+    // TITLE
+    // -------------------------------------------------
+
+    document.getElementById(
+        "problemTitle"
+    ).textContent =
+        scenario.title;
+
+
+    // -------------------------------------------------
+    // WORD PROBLEM
+    // -------------------------------------------------
+
+    document.getElementById(
+        "problemInstructions"
+    ).innerHTML = `
+
+        ${scenario.text}
+
+        <br><br>
+
+        <strong style="
+            color:#8fddff;
+            font-size:18px;
+            letter-spacing:1px;
+        ">
+
+            r = (
+                ${coordinates.x.toFixed(3)},
+                ${coordinates.y.toFixed(3)},
+                ${coordinates.z.toFixed(3)}
+            )
+
+        </strong>
+
+        <br><br>
+
+        Use the Bloch vector and its coordinates to determine
+
+        <strong>θ</strong>,
+        <strong>φ</strong>,
+        <strong>θ/2</strong>,
+        <strong>P(0)</strong>,
+        and
+        <strong>P(1)</strong>.
+
+        <br><br>
+
+        Then reconstruct the quantum state represented
+        by the target vector.
+
+    `;
+
+
+    // -------------------------------------------------
+    // REPLACE THE GIVEN-EQUATION AREA
+    //
+    // IMPORTANT:
+    // We give them coordinates — NOT θ or φ.
+    // -------------------------------------------------
+
+    document.getElementById(
+        "givenEquation"
+    ).innerHTML = `
+
+        <div style="
+            font-size:10px;
+            letter-spacing:2px;
+            opacity:0.55;
+            margin-bottom:10px;
+        ">
+            MEASURED BLOCH VECTOR
+        </div>
+
+        <div style="
+            font-size:21px;
+            color:#bdeaff;
+            letter-spacing:1px;
+        ">
+
+            r = (
+                ${coordinates.x.toFixed(3)},
+                ${coordinates.y.toFixed(3)},
+                ${coordinates.z.toFixed(3)}
+            )
+
+        </div>
+
+    `;
+
+}
+
+
+// -----------------------------------------------------
+// WHEN ADVANCED IS CLICKED
+// -----------------------------------------------------
+
+advancedButton.addEventListener(
+    "click",
+    () => {
+
+        // Existing Advanced code chooses the target first.
+        // Give it a moment, then build the word problem.
+
+        setTimeout(
+            terrakoShowAdvancedWordProblem,
+            100
+        );
+
+    }
+);
+
+
+// -----------------------------------------------------
+// ALSO UPDATE WHEN A NEW ADVANCED PROBLEM LOADS
+// -----------------------------------------------------
+
+const terrakoOriginalLoadAdvancedProblem =
+    loadAdvancedProblem;
+
+
+loadAdvancedProblem =
+    function() {
+
+        // Run your EXISTING Advanced loader.
+        terrakoOriginalLoadAdvancedProblem();
+
+
+        // Then apply the word problem.
+        setTimeout(
+            terrakoShowAdvancedWordProblem,
+            50
+        );
+
+    };
+
+const terrakoEquationPanel =
+    document.createElement("div");
+
+terrakoEquationPanel.id =
+    "terrakoEquationPanel";
+
+terrakoEquationPanel.style.display =
+    "none";
+
+terrakoEquationPanel.style.marginTop =
+    "26px";
+
+terrakoEquationPanel.innerHTML = `
+
+    <div style="
+        font-size:10px;
+        font-weight:800;
+        letter-spacing:2px;
+        color:#79d5ff;
+        margin-bottom:8px;
+    ">
+        FINAL STATE CONSTRUCTION
+    </div>
+
+    <div style="
+        font-size:12px;
+        opacity:0.60;
+        margin-bottom:12px;
+    ">
+        Construct the quantum state represented by the target vector.
+    </div>
+
+
+    <input
+        type="text"
+        id="terrakoStateEquation"
+        autocomplete="off"
+        spellcheck="false"
+        placeholder="Construct |ψ⟩ here..."
+        style="
+            width:100%;
+            box-sizing:border-box;
+
+            padding:15px 16px;
+
+            border:
+                1px solid rgba(75,190,255,0.35);
+
+            border-radius:7px;
+
+            background:
+                rgba(5,18,31,0.92);
+
+            color:#d9f5ff;
+
+            font-family:
+                'Courier New',
+                monospace;
+
+            font-size:15px;
+
+            outline:none;
+
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
+        "
+    >
+
+
+    <div
+        id="terrakoQuantumKeyboard"
+        style="
+            display:flex;
+            flex-wrap:wrap;
+            gap:7px;
+            margin-top:11px;
+        "
+    ></div>
+
+
+    <div
+        id="terrakoEquationFeedback"
+        style="
+            min-height:18px;
+            margin-top:9px;
+
+            font-size:11px;
+            letter-spacing:1px;
+
+            color:#79d5ff;
+        "
+    ></div>
+
+`;
+
+
+// -----------------------------------------------------
+// PUT PANEL BEFORE CHECK ANSWER
+// -----------------------------------------------------
+
+const terrakoCheck =
+    document.getElementById("advancedCheckAnswer")
+    ||
+    document.getElementById("checkAnswer");
+
+
+if (terrakoCheck) {
+
+    terrakoCheck.parentNode.insertBefore(
+        terrakoEquationPanel,
+        terrakoCheck
+    );
+
+}
+
+
+// -----------------------------------------------------
+// QUANTUM SYMBOL KEYBOARD
+// -----------------------------------------------------
+
+const terrakoKeyboard =
+    terrakoEquationPanel.querySelector(
+        "#terrakoQuantumKeyboard"
+    );
+
+
+const terrakoKeys = [
+
+    ["|ψ⟩", "|ψ⟩"],
+    ["=", "="],
+
+    ["cos(", "cos("],
+    ["sin(", "sin("],
+
+    ["θ", "θ"],
+    ["φ", "φ"],
+    ["θ/2", "θ/2"],
+
+    ["|0⟩", "|0⟩"],
+    ["|1⟩", "|1⟩"],
+
+    ["eⁱᵠ", "e^(i"],
+    ["+", "+"],
+
+    ["(", "("],
+    [")", ")"],
+
+    ["°", "°"]
+
+];
+
+
+terrakoKeys.forEach(([label, value]) => {
+
+    const key =
+        document.createElement("button");
+
+    key.type =
+        "button";
+
+    key.textContent =
+        label;
+
+
+    key.style.padding =
+        "8px 10px";
+
+    key.style.border =
+        "1px solid rgba(79,190,255,0.28)";
+
+    key.style.borderRadius =
+        "5px";
+
+    key.style.background =
+        "rgba(8,28,46,0.95)";
+
+    key.style.color =
+        "#a8e4ff";
+
+    key.style.fontFamily =
+        "inherit";
+
+    key.style.fontSize =
+        "12px";
+
+    key.style.cursor =
+        "pointer";
+
+
+    key.addEventListener(
+        "click",
+        () => {
+
+            const input =
+                document.getElementById(
+                    "terrakoStateEquation"
+                );
+
+
+            const start =
+                input.selectionStart;
+
+            const end =
+                input.selectionEnd;
+
+
+            input.value =
+
+                input.value.substring(
+                    0,
+                    start
+                )
+
+                +
+
+                value
+
+                +
+
+                input.value.substring(
+                    end
+                );
+
+
+            const newPosition =
+                start +
+                value.length;
+
+
+            input.focus();
+
+            input.setSelectionRange(
+                newPosition,
+                newPosition
+            );
+
+        }
+    );
+
+
+    terrakoKeyboard.appendChild(
+        key
+    );
+
+});
+
+
+// -----------------------------------------------------
+// NORMALIZE STUDENT EQUATION
+// -----------------------------------------------------
+
+function terrakoNormalizeEquation(text) {
+
+    return text
+
+        .toLowerCase()
+
+        // Remove spaces
+        .replace(/\s+/g, "")
+
+        // Allow normal > instead of ket bracket
+        .replace(/⟩/g, ">")
+
+        // Degree symbol is optional
+        .replace(/°/g, "")
+
+        // Allow multiplication symbols
+        .replace(/\*/g, "")
+
+        .replace(/×/g, "")
+
+        // Normalize minus
+        .replace(/−/g, "-")
+
+        // ψ character
+        .replace(/ψ/g, "psi");
+
+}
+
+
+// -----------------------------------------------------
+// CHECK CONSTRUCTED STATE
+// -----------------------------------------------------
+
+function terrakoCheckConstructedState() {
+
+    const input =
+        document.getElementById(
+            "terrakoStateEquation"
+        );
+
+
+    const feedback =
+        document.getElementById(
+            "terrakoEquationFeedback"
+        );
+
+
+    if (!input) {
+        return true;
+    }
+
+
+    if (input.value.trim() === "") {
+
+        feedback.textContent =
+            "Construct the final quantum state.";
+
+        input.style.borderColor =
+            "#ff8b8b";
+
+        return false;
+    }
+
+
+    const problem =
+        advancedProblems[
+            advancedProblemIndex
+        ];
+
+
+    if (!problem) {
+        return false;
+    }
+
+
+    const halfTheta =
+        problem.theta / 2;
+
+    const phi =
+        problem.phi;
+
+
+    // -------------------------------------------------
+    // BUILD CORRECT EQUATION
+    // -------------------------------------------------
+
+    const correctState1 =
+
+        `|psi>=cos(${halfTheta})|0>` +
+        `+e^(i${phi})sin(${halfTheta})|1>`;
+
+
+    // Also allow them to omit "|ψ> ="
+    const correctState2 =
+
+        `cos(${halfTheta})|0>` +
+        `+e^(i${phi})sin(${halfTheta})|1>`;
+
+
+    // Also accept exp(iφ)
+    const correctState3 =
+
+        `|psi>=cos(${halfTheta})|0>` +
+        `+exp(i${phi})sin(${halfTheta})|1>`;
+
+
+    const correctState4 =
+
+        `cos(${halfTheta})|0>` +
+        `+exp(i${phi})sin(${halfTheta})|1>`;
+
+
+    const student =
+        terrakoNormalizeEquation(
+            input.value
+        );
+
+
+    const answers = [
+
+        correctState1,
+        correctState2,
+        correctState3,
+        correctState4
+
+    ].map(
+        terrakoNormalizeEquation
+    );
+
+
+    // -------------------------------------------------
+    // SPECIAL CASE: φ = 0
+    // e^(i0) = 1
+    // -------------------------------------------------
+
+    if (phi === 0) {
+
+        answers.push(
+
+            terrakoNormalizeEquation(
+
+                `|psi>=cos(${halfTheta})|0>` +
+                `+sin(${halfTheta})|1>`
+
+            )
+
+        );
+
+
+        answers.push(
+
+            terrakoNormalizeEquation(
+
+                `cos(${halfTheta})|0>` +
+                `+sin(${halfTheta})|1>`
+
+            )
+
+        );
+
+    }
+
+
+    // -------------------------------------------------
+    // WRONG EQUATION
+    // -------------------------------------------------
+
+    if (!answers.includes(student)) {
+
+        feedback.textContent =
+            "State does not match the target vector.";
+
+        input.style.borderColor =
+            "#ff8b8b";
+
+        input.style.boxShadow =
+            "0 0 12px rgba(255,100,100,0.12)";
+
+        return false;
+    }
+
+
+    // -------------------------------------------------
+    // CORRECT EQUATION
+    // -------------------------------------------------
+
+    feedback.textContent =
+        "✓ QUANTUM STATE MATCHED";
+
+    input.style.borderColor =
+        "#67e8b5";
+
+    input.style.boxShadow =
+        "0 0 18px rgba(103,232,181,0.18)";
+
+
+    return true;
+
+}
+
+
+// -----------------------------------------------------
+// ADVANCED MODE — SHOW CONSTRUCTION PANEL
+// -----------------------------------------------------
+
+advancedButton.addEventListener(
+    "click",
+    () => {
+
+        terrakoEquationPanel.style.display =
+            "block";
+
+
+        const input =
+            document.getElementById(
+                "terrakoStateEquation"
+            );
+
+
+        input.value =
+            "";
+
+
+        document.getElementById(
+            "terrakoEquationFeedback"
+        ).textContent =
+            "";
+
+    }
+);
+
+
+// -----------------------------------------------------
+// INTRO MODE — HIDE IT
+// -----------------------------------------------------
+
+if (introModeButton) {
+
+    introModeButton.addEventListener(
+        "click",
+        () => {
+
+            terrakoEquationPanel.style.display =
+                "none";
+
+        }
+    );
+
+}
+
+
+// -----------------------------------------------------
+// IMPORTANT:
+//
+// INTERCEPT ADVANCED SUBMISSION.
+//
+// If the equation is wrong or blank,
+// STOP the existing grader.
+//
+// If the equation is correct,
+// allow your EXISTING grader to continue normally.
+// -----------------------------------------------------
+
+document.addEventListener(
+    "click",
+
+    function(event) {
+
+        if (
+            homeworkMode !== "advanced"
+        ) {
+            return;
+        }
+
+
+        const button =
+            event.target.closest(
+                "#checkAnswer, #advancedCheckAnswer"
+            );
+
+
+        if (!button) {
+            return;
+        }
+
+
+        const equationCorrect =
+            terrakoCheckConstructedState();
+
+
+        if (!equationCorrect) {
+
+            event.preventDefault();
+
+            event.stopPropagation();
+
+            event.stopImmediatePropagation();
+
+        }
+
+    },
+
+    true
+);
+
+document.addEventListener(
+    "click",
+    function (event) {
+
+        const introButton =
+            event.target.closest("#introMode");
+
+        // Ignore every click except Introductory
+        if (!introButton) {
+            return;
+        }
+
+
+        // -------------------------------------------------
+        // STOP OLDER MODE-SWITCH LISTENERS
+        // -------------------------------------------------
+
+        event.preventDefault();
+        event.stopPropagation();
+        event.stopImmediatePropagation();
+
+
+        // -------------------------------------------------
+        // FORCE INTRODUCTORY MODE
+        // -------------------------------------------------
+
+        homeworkMode =
+            "introductory";
+
+
+        // -------------------------------------------------
+        // BUTTON APPEARANCE
+        // -------------------------------------------------
+
+        introButton.classList.add(
+            "active"
+        );
+
+
+        const advancedModeButton =
+            document.getElementById(
+                "advancedMode"
+            );
+
+
+        if (advancedModeButton) {
+
+            advancedModeButton.classList.remove(
+                "active"
+            );
+
+        }
+
+
+        // -------------------------------------------------
+        // RESTORE CHECK BUTTON ID
+        // -------------------------------------------------
+
+        const checkButton =
+            document.getElementById(
+                "advancedCheckAnswer"
+            );
+
+
+        if (checkButton) {
+
+            checkButton.id =
+                "checkAnswer";
+
+        }
+
+
+        // -------------------------------------------------
+        // HIDE ADVANCED EQUATION CONSTRUCTION
+        // -------------------------------------------------
+
+        if (
+            typeof terrakoEquationPanel !==
+            "undefined"
+        ) {
+
+            terrakoEquationPanel.style.display =
+                "none";
+
+        }
+
+
+        // -------------------------------------------------
+        // RESTORE BLOCH CONTROLS
+        // -------------------------------------------------
+
+        if (
+            typeof controls !==
+            "undefined"
+        ) {
+
+            controls.enabled =
+                true;
+
+        }
+
+
+        // -------------------------------------------------
+        // RESTORE φ LEARNING VISUAL
+        // -------------------------------------------------
+
+        if (
+            typeof phiLabel !==
+            "undefined"
+        ) {
+
+            phiLabel.visible =
+                true;
+
+        }
+
+
+        if (
+            typeof phiArc !==
+            "undefined"
+        ) {
+
+            phiArc.visible =
+                true;
+
+        }
+
+
+        if (
+            typeof phiRadiusLine !==
+            "undefined"
+        ) {
+
+            phiRadiusLine.visible =
+                true;
+
+        }
+
+
+        // -------------------------------------------------
+        // RESTORE INTRODUCTORY TEXT
+        // -------------------------------------------------
+
+        document.getElementById(
+            "problemTitle"
+        ).textContent =
+            "Introductory Bloch Sphere";
+
+
+        document.getElementById(
+            "problemInstructions"
+        ).textContent =
+            "Determine the phase angle φ of the quantum state.";
+
+
+        // -------------------------------------------------
+        // CLEAR ADVANCED EQUATION FEEDBACK
+        // -------------------------------------------------
+
+        const advancedEquation =
+            document.getElementById(
+                "terrakoStateEquation"
+            );
+
+
+        if (advancedEquation) {
+
+            advancedEquation.value =
+                "";
+
+        }
+
+
+        const advancedFeedback =
+            document.getElementById(
+                "terrakoEquationFeedback"
+            );
+
+
+        if (advancedFeedback) {
+
+            advancedFeedback.textContent =
+                "";
+
+        }
+
+
+        // -------------------------------------------------
+        // LOAD AN ACTUAL INTRODUCTORY PROBLEM
+        // -------------------------------------------------
+
+        if (
+            typeof loadIntroProblem ===
+            "function"
+        ) {
+
+            loadIntroProblem();
+
+        }
+
+    },
+
+    // IMPORTANT:
+    // Run BEFORE all the older button listeners
+    true
+);
+
+advancedButton.addEventListener("click", () => {
+
+    controls.enabled = true;
+
+    // Allow camera rotation
+    controls.enableRotate = true;
+
+    // Allow zoom
+    controls.enableZoom = true;
+
+    // Don't let the camera pan away from the sphere
+    controls.enablePan = false;
+
+});
+
+
+// INTRODUCTORY:
+// Keep the same camera controls available.
+if (introModeButton) {
+
+    introModeButton.addEventListener("click", () => {
+
+        controls.enabled = true;
+
+        controls.enableRotate = true;
+        controls.enableZoom = true;
+        controls.enablePan = false;
+
+    });
+
+}
+
+Now in Advanced, dra
+
+</script>
+
+</body>
+
+</html>
